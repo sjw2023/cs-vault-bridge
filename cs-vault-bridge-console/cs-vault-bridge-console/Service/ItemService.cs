@@ -162,10 +162,11 @@ namespace cs_vault_bridge_console.Service
 
 			Console.ReadLine();
 		}
-		//카테고리 내용을 읽은뒤 인자로 받은 카테고리 이름에 해당하는 카테고리의 ID값을 반환 한다.
-		//Param : Category name
-		//Return : Category ID value
-		private long ReadCategory(string categoryName, Connection connection)
+		//	TODO : Extract method into CategoryService class.
+		//	카테고리 내용을 읽은뒤 인자로 받은 카테고리 이름에 해당하는 카테고리의 ID값을 반환 한다.
+		//	Param : Category name
+		//	Return : Category ID value
+		private long GetCategoryIdByName(string categoryName, Connection connection)
 		{
 			categories = connection.WebServiceManager.CategoryService.GetCategoriesByEntityClassId(categoryName, true);
 			long catId = -1;
@@ -187,7 +188,7 @@ namespace cs_vault_bridge_console.Service
 			//TODO : Parameter의 Dictionary가 null일 경우 예외 처리
 
 			//Create Item with item category
-			long catId = ReadCategory( parameter.parameters["type"], connection );
+			long catId = GetCategoryIdByName( parameter.parameters["type"], connection );
 			Item item = connection.WebServiceManager.ItemService.AddItemRevision(catId);
 
 			// set item numbering scheme

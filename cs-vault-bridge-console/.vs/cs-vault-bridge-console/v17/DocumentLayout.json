@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\service\\testservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\service\\testservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\util\\itemtree.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\util\\itemtree.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\service\\testservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\service\\testservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\service\\itemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -22,11 +22,28 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ItemTree.cs",
+              "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Util\\ItemTree.cs",
+              "RelativeDocumentMoniker": "cs-vault-bridge-console\\Util\\ItemTree.cs",
+              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Util\\ItemTree.cs",
+              "RelativeToolTip": "cs-vault-bridge-console\\Util\\ItemTree.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAAAwAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-07T06:15:48.487Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
               "$type": "Document",
@@ -36,41 +53,22 @@
               "RelativeDocumentMoniker": "cs-vault-bridge-console\\Service\\ItemService.cs",
               "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\ItemService.cs",
               "RelativeToolTip": "cs-vault-bridge-console\\Service\\ItemService.cs",
-              "ViewState": "AQIAAGQAAAAAAAAAAAAvwHcAAAADAAAA",
+              "ViewState": "AQIAABsAAAAAAAAAAAAAABAAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-07T01:56:41.465Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "TestService.cs",
               "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\TestService.cs",
               "RelativeDocumentMoniker": "cs-vault-bridge-console\\Service\\TestService.cs",
-              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\TestService.cs*",
-              "RelativeToolTip": "cs-vault-bridge-console\\Service\\TestService.cs*",
-              "ViewState": "AQIAAGEAAAAAAAAAAAAowGkAAACMAAAA",
+              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\TestService.cs",
+              "RelativeToolTip": "cs-vault-bridge-console\\Service\\TestService.cs",
+              "ViewState": "AQIAAG4AAAAAAAAAAAAowHkAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-29T03:57:24.435Z",
-              "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ItemTree.cs",
-              "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Util\\ItemTree.cs",
-              "RelativeDocumentMoniker": "cs-vault-bridge-console\\Util\\ItemTree.cs",
-              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Util\\ItemTree.cs",
-              "RelativeToolTip": "cs-vault-bridge-console\\Util\\ItemTree.cs",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAywCYAAAAdAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-07T01:23:35.69Z",
               "EditorCaption": ""
             }
           ]

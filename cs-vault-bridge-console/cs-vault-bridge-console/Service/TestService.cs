@@ -110,6 +110,8 @@ namespace cs_vault_bridge_console.Service
 			return null;
 		}
 
+
+		// Create Item tree.
 		public void CreateItemTree() {
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
@@ -117,25 +119,13 @@ namespace cs_vault_bridge_console.Service
 			List<Item> items = GetItemMasters();
 			
 			ItemAssoc[] itemAssocs = connection.WebServiceManager.ItemService.GetItemBOMAssociationsByItemIds(new long[] {items.ToArray()[0].Id }, true);
-
-			//TODO : take out this field as parameter
-			string categoryName = "ITEM";
-			Cat[] categories = connection.WebServiceManager.CategoryService.GetCategoriesByEntityClassId(categoryName, true);
-			long catId = -1;
-
-			foreach (Cat category in categories)
-			{
-				Console.WriteLine($"{category.SysName} | {category.Name} | {category.Id}");
-				if (category.Name == categoryName)
-					catId = category.Id;
-			}
+			Tree<CustomItem> tree = new Tree<CustomItem>();
 
 			foreach (ItemAssoc assoc in itemAssocs) { 
 				CustomItem item = new CustomItem(items.ToArray()[0].Id, items.ToArray()[0].Title );
-				Node<CustomItem> node = new Node<CustomItem>(item, assoc);
-				Tree<CustomItem> tree = new Tree<CustomItem>();
+				Node<CustomItem> node = new Node<CustomItem>(item, assoc.CldItemID);
 				//tree.Add(assoc.ParItemID, Node<CustomItem>);
-
+				
 			}
 
 			base.Logout(connection);

@@ -37,10 +37,9 @@ namespace cs_vault_bridge_console.Util
 		public Node<T> Parent { get; set; }
 		public List< Node<T> > Child { get; set; }
 		public T Value{ get; set; }
-		public Node(T toAdd, ItemAssoc itemAssoc) {
+		public Node(T toAdd, long id) {
 			this.Value = toAdd;
-			nodeID = itemAssoc.CldItemID;
-
+			this.nodeID = id;
 		}
 		// 자식이 없다면 리스트를 생성한뒤 추가.
 		// 자식이 존재 한다면 단순히 리스트에 자식 추가.
