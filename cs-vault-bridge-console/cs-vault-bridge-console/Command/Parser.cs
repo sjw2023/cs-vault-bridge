@@ -65,7 +65,8 @@ namespace cs_vault_bridge_console
 				//testService.GetAllAssociationPropertyDefinitionInfos();
 				//testService.GetItemMasters();
 				Item item = testService.FindItemByName(parameter);
-				testService.PrintBomOfItem(item);
+				//testService.PrintBomOfItem(item);
+				testService.GetBOMList(item);
 				Console.WriteLine("Call done");
 				Console.ReadLine();
 			}

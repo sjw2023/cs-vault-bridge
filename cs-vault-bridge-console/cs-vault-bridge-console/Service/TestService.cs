@@ -1,6 +1,7 @@
 ﻿using Autodesk.Connectivity.WebServices;
 using Autodesk.DataManagement.Client.Framework.Vault.Currency.Connections;
 using cs_vault_bridge_console.Command;
+using cs_vault_bridge_console.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,8 @@ namespace cs_vault_bridge_console.Service
 		public void GetAllAssociationPropertyDefinitionInfos() {
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
-			
-			AssocPropDefInfo [] assocPropDefInfos = connection.WebServiceManager.PropertyService.GetAllAssociationPropertyDefinitionInfos( AssocPropTyp.ChangeOrderItem );
+
+			AssocPropDefInfo[] assocPropDefInfos = connection.WebServiceManager.PropertyService.GetAllAssociationPropertyDefinitionInfos(AssocPropTyp.ChangeOrderItem);
 			if (assocPropDefInfos != null)
 			{
 				foreach (AssocPropDefInfo assocPropDefInfo in assocPropDefInfos)
@@ -40,7 +41,7 @@ namespace cs_vault_bridge_console.Service
 
 		// Read all items
 
-		public List<Item> GetItemMasters() { 
+		public List<Item> GetItemMasters() {
 			List<Item> items = new List<Item>();
 
 			VDF.Vault.Currency.Connections.Connection connection;
@@ -61,7 +62,7 @@ namespace cs_vault_bridge_console.Service
 			base.Logout(connection);
 			return items;
 		}
-		
+
 		public Item FindItemByName(Parameter parameter)
 		{
 			string name = parameter.parameters["name"];
@@ -80,22 +81,72 @@ namespace cs_vault_bridge_console.Service
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
 			//Read all BOMs of each items
-			ItemAssoc[] itemAssocs = connection.WebServiceManager.ItemService.GetItemBOMAssociationsByItemIds(new long [] {item.Id}, true);
+			ItemAssoc[] itemAssocs = connection.WebServiceManager.ItemService.GetItemBOMAssociationsByItemIds(new long[] { item.Id }, true);
 			foreach (ItemAssoc itemAssoc in itemAssocs)
 			{
 				Item[] temp = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { itemAssoc.ParItemID });
 				Item[] child = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { itemAssoc.CldItemID });
-
-				Console.WriteLine($"Parent : {itemAssoc.ParItemMasterID} id : {itemAssoc.Id} | Parent Item name : {temp[0].ItemNum} | {itemAssoc.CldItemID } | {child[0].ItemNum}");
+				Console.WriteLine($"Parent : {itemAssoc.ParItemMasterID} id : {itemAssoc.Id} | Parent Item name : {temp[0].ItemNum} | {itemAssoc.CldItemID} | {child[0].ItemNum}");
 			}
 			base.Logout(connection);
 		}
+		public CustomItem[] GetBOMList(Item item) {
+			VDF.Vault.Currency.Connections.Connection connection;
+			base.LogIn(out connection);
+
+			Tree<CustomItem> itemTree = new Tree<CustomItem>();
+			Updater<CustomItem> updater = new Updater<CustomItem>("http://localhost:8080");
+			//Read all BOMs of each items
+			ItemAssoc[] itemAssocs = connection.WebServiceManager.ItemService.GetItemBOMAssociationsByItemIds(new long [] {item.Id}, true);
+
+			foreach (ItemAssoc itemAssoc in itemAssocs)
+			{
+				Item[] parentItem = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { itemAssoc.ParItemID });
+				Item[] child = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { itemAssoc.CldItemID });
+				Console.WriteLine($"Parent : {itemAssoc.ParItemID}  | Quantity {itemAssoc.Quant} | Parent Item name : {parentItem[0].ItemNum} | Child : {itemAssoc.CldItemID } | {child[0].ItemNum}");
+			}
+			
+			base.Logout(connection);
+			return null;
+		}
+
+		public void CreateItemTree() {
+			VDF.Vault.Currency.Connections.Connection connection;
+			base.LogIn(out connection);
+			
+			List<Item> items = GetItemMasters();
+			
+			ItemAssoc[] itemAssocs = connection.WebServiceManager.ItemService.GetItemBOMAssociationsByItemIds(new long[] {items.ToArray()[0].Id }, true);
+
+			//TODO : take out this field as parameter
+			string categoryName = "ITEM";
+			Cat[] categories = connection.WebServiceManager.CategoryService.GetCategoriesByEntityClassId(categoryName, true);
+			long catId = -1;
+
+			foreach (Cat category in categories)
+			{
+				Console.WriteLine($"{category.SysName} | {category.Name} | {category.Id}");
+				if (category.Name == categoryName)
+					catId = category.Id;
+			}
+
+			foreach (ItemAssoc assoc in itemAssocs) { 
+				CustomItem item = new CustomItem(items.ToArray()[0].Id, items.ToArray()[0].Title );
+				Node<CustomItem> node = new Node<CustomItem>(item, assoc);
+				Tree<CustomItem> tree = new Tree<CustomItem>();
+				//tree.Add(assoc.ParItemID, Node<CustomItem>);
+
+			}
+
+			base.Logout(connection);
+		}
+
 
 		public void GetPropertyDefinitionInfosByEntityClassId() {
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
 
-
+			
 			//connection.WebServiceManager.PropertyService.GetPropertyDefinitionInfosByEntityClassId("ITEM", );
 
 			base.Logout(connection);
@@ -241,7 +292,7 @@ namespace cs_vault_bridge_console.Service
 			foreach (ItemAssoc itemAssoc in itemAssocs)
 			{
 				Item[] temp = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { itemAssoc.ParItemID });
-				Console.WriteLine($"Parent : {itemAssoc.ParItemMasterID} id : {itemAssoc.Id} | Item name : {temp[0].ItemNum}");
+				Console.WriteLine($"Parent : {itemAssoc.ParItemID} id : {itemAssoc.Id} | Item name : {temp[0].ItemNum}");
 				
 			}
 
