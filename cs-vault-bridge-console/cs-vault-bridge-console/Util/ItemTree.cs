@@ -9,45 +9,81 @@ using System.Threading.Tasks;
 
 namespace cs_vault_bridge_console.Util
 {
-	internal class Tree<T>
-	{
-		Node<T> root;
-		Dictionary<long, int> partsTotalQuatity;
-		int depth;
+	// "id": 21,
+	//"title": "제품21",
+	//"unitType": "T",
+	//"itemCategoryType": "ASSEMBLY",
+	//"itemType": "PBELT",
+	//"code": "F201",
+	//"specifications": "1m",
+	//"parentsCheck": true,
+	//"totalInventoryQuantity": 15,
+	//"safetyStock": 0,
+	//"note": "비고",
+	//"inspectionRate": 0.0,
+	//"itemChildren": [],
+	//"processTemplates": []
+	//"itemProcesses": []
+	//"processTemplateSetting": {}
+	//internal class Tree<T>
+	//{
+	//	private Node<T> root; 
+	//	public Node<T> Root { get { return this.root; } set { this.root = value; }  }
+	//	Dictionary<long, int> partsTotalQuatity;
+	//	int depth;
 
-		//	TODO : Change code to initialize root with constructor
-		public bool AddRoot(long rootId, Node<T> rootItem) {
-			if (root == null) { 	
-				this.root = rootItem;
-				this.root.nodeID = rootId;
-				return true;
-			}
-			return false;
-		}
+	//	public Tree(){
+	//	}
 
-		//	TODO : Improve algorithm rather than use DFS
-		//	Add Item to list.
-		//	If parent id is not equal to root than find 
-		public void Add(long parentId, Node<T> item) {
-			root.AddChild(parentId, item);
-		}
-	}
+	//	public Tree( Node<T> root, int depth=0 ) { 
+	//		this.root = root;
+	//		this.root.nodeID = root.nodeID;
+	//		this.depth = depth;
+	//	}
+
+	//	//	TODO : Change code to initialize root with constructor
+	//	public bool AddRoot(long rootId, Node<T> rootItem) {
+	//		if (root == null) { 	
+	//			this.root = rootItem;
+	//			this.root.nodeID = rootId;
+	//			return true;
+	//		}
+	//		return false;
+	//	}
+
+	//	//	TODO : Improve algorithm rather than use DFS
+	//	//	Add Item to list.
+	//	//	If parent id is not equal to root than find 
+	//	public void Add( Node<T> parent, Node<T> item) {
+	//		root.AddChild( parent, item);
+	//	}
+
+	//	//kkjjpublic Node<T> FindNodeById() {
+	//	//	Node<T> toRet = null;
+	//	//	for
+	//	//	return root;
+	//	//}
+	//	//public bool AddChildToNode(Node<T> toAdd, long id) { 
+
+	//	//}
+	//}
 	internal class Node<T> {
 		public long nodeID;
 		public Node<T> Parent { get; set; }
 		public List< Node<T> > Child { get; set; }
-		public T Value{ get; set; }
+		public T Value { get; set; }
+
 		public Node(T toAdd, long id) {
 			this.Value = toAdd;
 			this.nodeID = id;
 		}
 		// 자식이 없다면 리스트를 생성한뒤 추가.
 		// 자식이 존재 한다면 단순히 리스트에 자식 추가.
-		public bool AddChild(long parentId, Node<T> toAdd) {
+		public bool AddChild(Node<T> toAdd) { 
 			if (this.Child == null)
 			{
 				this.Child = new List<Node<T>>
-				{
+				{ 
 					toAdd
 				};
 				return true;
@@ -55,6 +91,23 @@ namespace cs_vault_bridge_console.Util
 			else
 			{
 				this.Child.Add(toAdd);
+				return true;
+			}
+		}
+		public bool AddChild( Node<T> parent, Node<T> toAdd ) {
+			if (this.Child == null)
+			{
+				this.Child = new List<Node<T>>
+				{ 
+					toAdd
+				};
+				this.AddParent(parent);
+				return true;
+			}
+			else
+			{
+				this.Child.Add(toAdd);
+				this.AddParent(parent);
 				return true;
 			}
 		}
@@ -87,6 +140,8 @@ namespace cs_vault_bridge_console.Util
 		public int quantity;
 		public double inspectionRate;
 		public int totalInventoryQuatity;
+
+		public CustomItem() { }
 
 		public CustomItem(long id, string title) {
 			this.id = id;

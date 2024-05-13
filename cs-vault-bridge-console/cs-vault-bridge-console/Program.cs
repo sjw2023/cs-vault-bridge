@@ -66,27 +66,5 @@ namespace cs_vault_bridge_console
 		//	}
 		//}
 
-		
-
-		//		public void DirectCall(string serviceName, string method, string[] args)
-		//{
-		//	try
-		//	{
-		//		// Start at the root Folder.
-		//		VDF.Vault.Currency.Entities.Folder root = m_connection.FolderManager.RootFolder;
-		//		// Call a function which prints all files in a Folder and sub-Folders
-		//		MethodInfo mi = m_connection.WebServiceManager.DocumentService.GetType().GetTypeInfo().GetMethod(method);
-		//		File[] childFiles = (File[])mi.Invoke(m_connection.WebServiceManager.DocumentService, new object[] { root.Id, false });
-		//		///// Send to spring boot
-		//		Updater<File[]> updater1 = new Updater<File[]>("http://localhost:8080/");
-		//		updater1.GenericPost("post-files", childFiles);
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		Console.WriteLine(ex.ToString(), "Error");
-		//		return;
-		//	}
-		//}
-		//	}
 	}
 }

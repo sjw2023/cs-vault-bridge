@@ -1,12 +1,18 @@
 ﻿using Autodesk.Connectivity.WebServices;
 using Autodesk.DataManagement.Client.Framework.Vault.Currency.Connections;
+using Autodesk.DataManagement.Client.Framework.Vault.Currency.Properties;
+using Autodesk.DataManagement.Client.Framework.Vault.Results;
 using cs_vault_bridge_console.Command;
 using cs_vault_bridge_console.Util;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.EnterpriseServices;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using VDF = Autodesk.DataManagement.Client.Framework;
 namespace cs_vault_bridge_console.Service
 {
@@ -20,49 +26,37 @@ namespace cs_vault_bridge_console.Service
 			base.LogIn(out connection);
 
 			AssocPropDefInfo[] assocPropDefInfos = connection.WebServiceManager.PropertyService.GetAllAssociationPropertyDefinitionInfos(AssocPropTyp.ChangeOrderItem);
-			if (assocPropDefInfos != null)
-			{
-				foreach (AssocPropDefInfo assocPropDefInfo in assocPropDefInfos)
-				{
+			if (assocPropDefInfos != null){
+				foreach (AssocPropDefInfo assocPropDefInfo in assocPropDefInfos){
 					Console.WriteLine(assocPropDefInfo.PropDef);
-					foreach (EntClassCtntSrcPropCfg entClassCtntSrcPropCfg in assocPropDefInfo.EntClassCtntSrcPropCfgArray)
-					{
+					foreach (EntClassCtntSrcPropCfg entClassCtntSrcPropCfg in assocPropDefInfo.EntClassCtntSrcPropCfgArray){
 						Console.WriteLine($"{entClassCtntSrcPropCfg.EntClassId}");
 					}
-					foreach (var value in assocPropDefInfo.ListValArray)
-					{
+					foreach (var value in assocPropDefInfo.ListValArray){
 						Console.WriteLine(value);
 					}
-
 				}
 			}
 			base.Logout(connection);
 		}
-
 		// Read all items
-
+		//	TODO : Move it to ItemService.cs
 		public List<Item> GetItemMasters() {
 			List<Item> items = new List<Item>();
-
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
-			///
 			string bookmark = null;
 			SrchStatus status = null;
-			while (status == null || status.TotalHits > items.Count)
-			{
+			while (status == null || status.TotalHits > items.Count){
 				items.AddRange(connection.WebServiceManager.ItemService.FindItemRevisionsBySearchConditions(null, null, true, ref bookmark, out status));
 			}
-			///
 			int index = 1;
 			foreach (Item item in items) {
 				Console.WriteLine($"{index++} | {item.ItemNum} | {item.MasterId} | {item.RevNum} | {item.Id} ");
 			}
-
 			base.Logout(connection);
 			return items;
 		}
-
 		public Item FindItemByName(Parameter parameter)
 		{
 			string name = parameter.parameters["name"];
@@ -94,56 +88,136 @@ namespace cs_vault_bridge_console.Service
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
 
-			Tree<CustomItem> itemTree = new Tree<CustomItem>();
+			//Tree<CustomItem> itemTree = new Tree<CustomItem>();
 			Updater<CustomItem> updater = new Updater<CustomItem>("http://localhost:8080");
 			//Read all BOMs of each items
-			ItemAssoc[] itemAssocs = connection.WebServiceManager.ItemService.GetItemBOMAssociationsByItemIds(new long [] {item.Id}, true);
+			ItemAssoc[] itemAssocs = connection.WebServiceManager.ItemService.GetItemBOMAssociationsByItemIds(new long[] { item.Id }, true);
 
 			foreach (ItemAssoc itemAssoc in itemAssocs)
 			{
 				Item[] parentItem = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { itemAssoc.ParItemID });
 				Item[] child = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { itemAssoc.CldItemID });
-				Console.WriteLine($"Parent : {itemAssoc.ParItemID}  | Quantity {itemAssoc.Quant} | Parent Item name : {parentItem[0].ItemNum} | Child : {itemAssoc.CldItemID } | {child[0].ItemNum}");
+				Console.WriteLine($"Parent ID : {itemAssoc.ParItemID}  | Quantity {itemAssoc.Quant} | Parent Item name : {parentItem[0].ItemNum} | Child Id : {itemAssoc.CldItemID} | Child Item Name : {child[0].ItemNum}");
 			}
-			
+
 			base.Logout(connection);
 			return null;
 		}
+		public IEnumerable<ItemAssoc> GetItemAssocByIdFromBOM(long targetId, ItemAssoc[] itemAssocs) { 
+			IEnumerable<ItemAssoc> toRet =
+				from itemAssoc in itemAssocs
+				where itemAssoc.ParItemID == targetId
+				select itemAssoc;
+
+			foreach (ItemAssoc itemAssoc in toRet) {
+				Console.WriteLine(itemAssoc.ParItemID);
+			}
+			return toRet;
+		}
+
+		public IEnumerable<long> GetChildrenIdsByParentIdFromBOM(long targetId, ItemAssoc[] itemAssocs) { 
+			IEnumerable<long> toRet = 
+				from itemAssoc in itemAssocs
+				where itemAssoc.ParItemID ==targetId
+				select itemAssoc.CldItemID;
+			foreach (long id in toRet) { 
+				Console.WriteLine($"{id}");
+			}
+			return toRet;
+		}
+
+		public IEnumerable<long> GetParentIdsFromBOM(ItemAssoc[] itemAssocs) {
+			IEnumerable<long> toRet=
+				from itemAssoc in itemAssocs
+				select itemAssoc.ParItemID;
 
 
-		// Create Item tree.
-		public void CreateItemTree() {
-			VDF.Vault.Currency.Connections.Connection connection;
+			foreach (long id in toRet.Distinct()) { 
+				Console.WriteLine($"Parents' id : {id}");
+			}
+			return toRet.Distinct();
+		}
+
+		public IEnumerable<long> GetChildrenIdsFromBOM(ItemAssoc[] itemAssocs) {
+			IEnumerable<long> toRet =
+				from itemAssoc in itemAssocs
+				select itemAssoc.CldItemID;
+			return toRet;
+		}
+ 
+		//	TODO :  Put this method into Tree class;
+		public void CreateItemTreeFromBOM(Parameter parameter)
+		{
+			Item item = FindItemByName(parameter); 
+			VDF.Vault.Currency.Connections.Connection connection; 
 			base.LogIn(out connection);
-			
-			List<Item> items = GetItemMasters();
-			
-			ItemAssoc[] itemAssocs = connection.WebServiceManager.ItemService.GetItemBOMAssociationsByItemIds(new long[] {items.ToArray()[0].Id }, true);
-			Tree<CustomItem> tree = new Tree<CustomItem>();
+			//	TODO : set Root Item with first item who has children
+			ItemAssoc[] itemAssocs = connection.WebServiceManager.ItemService.GetItemBOMAssociationsByItemIds(new long[] { item.Id }, false);
 
-			foreach (ItemAssoc assoc in itemAssocs) { 
-				CustomItem item = new CustomItem(items.ToArray()[0].Id, items.ToArray()[0].Title );
-				Node<CustomItem> node = new Node<CustomItem>(item, assoc.CldItemID);
-				//tree.Add(assoc.ParItemID, Node<CustomItem>);
-				
+			Node<CustomItem> root = new Node<CustomItem>(new CustomItem(), item.Id);
+			foreach (ItemAssoc BOM in itemAssocs) { 
+				Console.WriteLine( BOM.CldItemID );
+				int level = 1;
+				root.AddChild(DFSTreeGenerator(new Node<CustomItem>(new CustomItem(), BOM.CldItemID), connection, level));
+			}
+			PrintChildren(root, 1);
+		
+			base.Logout(connection);
+		}
+		//	TODO :  Put this method into Tree class;
+		private void PrintChildren(Node<CustomItem> root, int level) {
+			if (root.Child == null) {
+				return;
+			}
+			foreach (Node<CustomItem> node in root.Child) {
+				for (int i = 0; i < level; i++) {
+					Console.Write("--");
+				}
+				Console.WriteLine($"{level} {node.nodeID}");
+				PrintChildren(node, level+1);		
+			}
+		}
+		//	TODO :  Put this method into Tree class;
+		private Node<CustomItem> DFSTreeGeneratorFromBOM(Node<CustomItem> parent, Connection connection, int level)
+		{ 
+			ItemAssoc[] itemAssocs = connection.WebServiceManager.ItemService.GetItemBOMAssociationsByItemIds( new long[] { parent.nodeID }, false );
+			if (itemAssocs == null){
+				return parent;
 			}
 
-			base.Logout(connection);
+			// while looping put into chilren list and move to next recursive call
+
+			foreach ( long child in GetChildrenIdsFromBOM(itemAssocs) ) {
+				for (int i = 0; i < level; i++) {
+					Console.Write("--");
+				}
+				parent.AddChild(DFSTreeGenerator(new Node<CustomItem>(new CustomItem(), child), connection, level++ ));
+				Item[] temp = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { child });
+
+				Console.WriteLine($"Child added : {temp[0].ItemNum} {child}");
+			}
+			return parent;
 		}
 
-
-		public void GetPropertyDefinitionInfosByEntityClassId() {
+		//	TODO : Move to PropertyService.cs after complete
+		//	Get Property definitions value.
+		public void PrintPropertyValues() { 
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
-
-			
-			//connection.WebServiceManager.PropertyService.GetPropertyDefinitionInfosByEntityClassId("ITEM", );
-
+			// Getting ITEMs property definitions and its values
+			PropertyDefinitionDictionary dictionary =  connection.PropertyManager.GetPropertyDefinitions( VDF.Vault.Currency.Entities.EntityClassIds.Items, null, VDF.Vault.Currency.Properties.PropertyDefinitionFilter.IncludeUserDefined);
+			foreach ( PropertyDefinition element in dictionary.Values) {
+				Console.WriteLine($"프로퍼티 : {element}");
+				if (element.ValueList != null) { 
+					foreach (var value in element.ValueList) {
+						Console.WriteLine($"{value.Display}");
+					}
+				}
+			}
 			base.Logout(connection);
 		}
-
+		
 		// Get duplicate search Configuration
-
 		public void GetDuplicateSerachConfiguration() {
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
@@ -157,9 +231,6 @@ namespace cs_vault_bridge_console.Service
 
 			base.Logout(connection);
 		}
-
-		//
-
 		public void GetEnablementConfiguration() { 
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
@@ -172,7 +243,6 @@ namespace cs_vault_bridge_console.Service
 		}
 
 		// 현재 서버에서 사용중인 프로덕트 정보 읽어 오기
-
 		public void GetSupportedProducts() { 
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
@@ -186,9 +256,7 @@ namespace cs_vault_bridge_console.Service
 			base.Logout(connection);
 		}
 
-
 		// 현재 서버에서 설정되어있는 모든 CustomEntity 값을 읽어 온다.
-
 		public void GetAllCustomEntityDefinitions(Parameter parameter) {
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
@@ -203,11 +271,7 @@ namespace cs_vault_bridge_console.Service
 			base.Logout(connection);
 		}
 
-	
-
-
 		//현재 서버에 설정되어있는 Behavior 값들과 Entity 값들을 읽어 온다.
-
 		public void GetServerConfigurationTest(Parameter parameter) { 
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
@@ -226,7 +290,6 @@ namespace cs_vault_bridge_console.Service
 		}
 
 		//전달 받은 카테고리에 해당하는 프로퍼티들을 반환
-		
 		public void TestPropertyPrint(Method method, Parameter parameter) {
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
@@ -282,8 +345,7 @@ namespace cs_vault_bridge_console.Service
 			foreach (ItemAssoc itemAssoc in itemAssocs)
 			{
 				Item[] temp = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { itemAssoc.ParItemID });
-				Console.WriteLine($"Parent : {itemAssoc.ParItemID} id : {itemAssoc.Id} | Item name : {temp[0].ItemNum}");
-				
+				Console.WriteLine($"Parent : {itemAssoc.ParItemID} id : {itemAssoc.Id} | Item name : {temp[0].ItemNum}");	
 			}
 
 			//Pring parameters
