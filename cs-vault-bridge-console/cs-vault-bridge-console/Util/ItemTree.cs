@@ -69,9 +69,9 @@ namespace cs_vault_bridge_console.Util
 	//}
 	internal class Node<T> {
 		public long nodeID;
-		public Node<T> Parent { get; set; }
-		public List< Node<T> > Child { get; set; }
-		public T Value { get; set; }
+		public Node<T> Parent;
+		public List<Node<T>> Children;
+		public T Value;
 
 		public Node(T toAdd, long id) {
 			this.Value = toAdd;
@@ -80,33 +80,26 @@ namespace cs_vault_bridge_console.Util
 		// 자식이 없다면 리스트를 생성한뒤 추가.
 		// 자식이 존재 한다면 단순히 리스트에 자식 추가.
 		public bool AddChild(Node<T> toAdd) { 
-			if (this.Child == null)
-			{
-				this.Child = new List<Node<T>>
-				{ 
+			if (this.Children == null){
+				this.Children = new List<Node<T>>{ 
 					toAdd
 				};
-				return true;
-			}
-			else
-			{
-				this.Child.Add(toAdd);
+				return true;}
+			else{
+				this.Children.Add(toAdd);
 				return true;
 			}
 		}
 		public bool AddChild( Node<T> parent, Node<T> toAdd ) {
-			if (this.Child == null)
-			{
-				this.Child = new List<Node<T>>
-				{ 
+			if (this.Children == null){
+				this.Children = new List<Node<T>>{ 
 					toAdd
 				};
 				this.AddParent(parent);
 				return true;
 			}
-			else
-			{
-				this.Child.Add(toAdd);
+			else{
+				this.Children.Add(toAdd);
 				this.AddParent(parent);
 				return true;
 			}
@@ -117,8 +110,7 @@ namespace cs_vault_bridge_console.Util
 			if (toAdd == null) {
 				this.Parent = null;
 			}
-			if (this.Parent == null)
-			{
+			if (this.Parent == null){
 				this.Parent = toAdd;
 				return true;
 			}
@@ -127,7 +119,8 @@ namespace cs_vault_bridge_console.Util
 	}
 	internal class CustomItem {
 		public long id;
-		public string title;
+		private string title;
+		public string Title { get { return this.title; } set { this.title = value; } }
 		public UnitType unitType;
 		public ItemCategory itemCategory;
 		public ItemType itemType;
@@ -135,9 +128,9 @@ namespace cs_vault_bridge_console.Util
 		public string specification;
 		public bool parentsCheck;
 		public int safetyStock;
-		public string note;
-		//MES 에서 사용하는 변수 매핑 편의 위해 넣어둠
-		public int quantity;
+		private string note;
+		public string Note { get { return this.note;  } set {this.note = value; } }		//MES 에서 사용하는 변수 매핑 편의 위해 넣어둠
+		public double quantity;
 		public double inspectionRate;
 		public int totalInventoryQuatity;
 
@@ -148,7 +141,17 @@ namespace cs_vault_bridge_console.Util
 			this.title = title;
 		}
 
-		public CustomItem(long id, string title, UnitType unitType, ItemCategory itemCategory, ItemType itemType, string code, string specification, bool parentCheck, int safetyStock, string note, int queatity) { 
+		public CustomItem(long id, string title, UnitType unitType, ItemCategory itemCategory, string note, double quantity) { 
+				this.id = id;
+			this.title = title;	
+			this.unitType = unitType;	
+			this.itemCategory = itemCategory;
+			this.note = note;
+			this.quantity = quantity;
+		
+		}
+
+		public CustomItem(long id, string title, UnitType unitType, ItemCategory itemCategory, ItemType itemType, string code, string specification, bool parentCheck, int safetyStock, string note, double queatity) { 
 			this.specification = specification;
 			this.id = id;
 			this.title = title;	

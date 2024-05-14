@@ -18,6 +18,8 @@ using cs_vault_bridge_console.Service;
 
 namespace cs_vault_bridge_console
 {
+	//	TODO : Need to implement Initializing module to load all the foundation data of VAULT DB
+
 	internal class Program
 	{
 		private static Parser parser;
@@ -28,23 +30,6 @@ namespace cs_vault_bridge_console
 			parser = new Parser(args);
 			parser.Execute();
 		}
-		//private void ServerConfiguration() {
-		//	ServerCfg serverCfg = m_connection.WebServiceManager.AdminService.GetServerConfiguration();
-		//	if (serverCfg != null)
-		//	{
-		//		foreach (var ele in serverCfg.EntClassCfgArray)
-		//		{
-		//			Console.WriteLine($"{ele.Id}");
-		//		}
-		//	}
-		//	Console.ReadLine();
-		//}
-		//private void TestAddProperty() {
-		//	ReadAllItems();
-		//	//FindItemById(37582);
-		//	AddItemProperty(37582);
-		//}
-	
 	
 		//private void AddLifeCycle( WebServiceManager serviceManager, Item item ) {
 		//	//Set Life Cycle Definitions

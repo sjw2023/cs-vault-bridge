@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.EnterpriseServices;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -144,7 +145,10 @@ namespace cs_vault_bridge_console.Service
 				select itemAssoc.CldItemID;
 			return toRet;
 		}
- 
+/// <summary>
+/// Generating item tree 
+/// </summary>
+/// <param name="parameter"></param>
 		//	TODO :  Put this method into Tree class;
 		public void CreateItemTreeFromBOM(Parameter parameter)
 		{
@@ -156,48 +160,70 @@ namespace cs_vault_bridge_console.Service
 
 			Node<CustomItem> root = new Node<CustomItem>(new CustomItem(), item.Id);
 			foreach (ItemAssoc BOM in itemAssocs) { 
-				Console.WriteLine( BOM.CldItemID );
 				int level = 1;
-				root.AddChild(DFSTreeGenerator(new Node<CustomItem>(new CustomItem(), BOM.CldItemID), connection, level));
+				root.AddChild(DFSTreeGeneratorFromBOM(new Node<CustomItem>(new CustomItem(), BOM.CldItemID), connection, level));
 			}
-			PrintChildren(root, 1);
-		
+			Updater<Node<CustomItem>> updater = new Updater<Node<CustomItem>>("http://localhost:8080");
+			updater.GenericPost("/post-item-tree", root);
+			PrintItemTree(root, 1);
 			base.Logout(connection);
 		}
 		//	TODO :  Put this method into Tree class;
-		private void PrintChildren(Node<CustomItem> root, int level) {
-			if (root.Child == null) {
+		private void PrintItemTree(Node<CustomItem> root, int level) {
+			if (root.Children == null) {
 				return;
 			}
-			foreach (Node<CustomItem> node in root.Child) {
+			foreach (Node<CustomItem> node in root.Children) {
 				for (int i = 0; i < level; i++) {
 					Console.Write("--");
 				}
-				Console.WriteLine($"{level} {node.nodeID}");
-				PrintChildren(node, level+1);		
+				Console.WriteLine($"{level} {node.nodeID} | {node.Value.Title}");
+				PrintItemTree(node, level+1);		
 			}
 		}
 		//	TODO :  Put this method into Tree class;
+		//	TODO :  Join several results of query with LINQ
 		private Node<CustomItem> DFSTreeGeneratorFromBOM(Node<CustomItem> parent, Connection connection, int level)
 		{ 
 			ItemAssoc[] itemAssocs = connection.WebServiceManager.ItemService.GetItemBOMAssociationsByItemIds( new long[] { parent.nodeID }, false );
 			if (itemAssocs == null){
 				return parent;
 			}
-
 			// while looping put into chilren list and move to next recursive call
-
-			foreach ( long child in GetChildrenIdsFromBOM(itemAssocs) ) {
-				for (int i = 0; i < level; i++) {
-					Console.Write("--");
+			foreach ( ItemAssoc child in itemAssocs ) {
+				//Getting property definitions of ITEM entity
+				PropDef[] propDefs = connection.WebServiceManager.PropertyService.GetPropertyDefinitionsByEntityClassId( "ITEM" );
+				List<long> tempPropDefIds = new List<long>();
+				foreach ( PropDef prop in propDefs) {
+					tempPropDefIds.Add(prop.Id);
 				}
-				parent.AddChild(DFSTreeGenerator(new Node<CustomItem>(new CustomItem(), child), connection, level++ ));
-				Item[] temp = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { child });
-
-				Console.WriteLine($"Child added : {temp[0].ItemNum} {child}");
+				//Getting custom property values
+				PropInst[] propertyInstance = connection.WebServiceManager.PropertyService.GetProperties( "ITEM", new long[] { child.CldItemID }, tempPropDefIds.ToArray());
+				// Debug code to see what's inside of PropInst can be removed later
+				CustomItem childToAdd = new CustomItem();
+				if (propertyInstance != null) { 
+					foreach (PropInst instance in propertyInstance) {
+						PropertyDefinition tempDef = connection.PropertyManager.GetPropertyDefinitionById(instance.PropDefId);
+						//	TODO : Think about better way rather than hard coding this
+						if (tempDef.DisplayName.Equals("이름")){
+							childToAdd.Title = (string)instance.Val;
+						}
+						if (tempDef.DisplayName.Equals("비고")){
+							childToAdd.Note = (string)instance.Val;
+						}
+					}
+				}
+				//	TODO : Put Unit type, Item Category.
+				//	Add child to parent.
+				Item[] temp = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { child.CldItemID });
+				parent.AddChild( DFSTreeGeneratorFromBOM(new Node<CustomItem>( childToAdd , child.CldItemID ), connection, level++ ));
 			}
 			return parent;
 		}
+
+		//	TODO : Move to PropertyService.cs
+		//	Create Items property definition according to Vault information
+
 
 		//	TODO : Move to PropertyService.cs after complete
 		//	Get Property definitions value.
@@ -224,8 +250,7 @@ namespace cs_vault_bridge_console.Service
 
 			DuplicateSearchConfiguration duplicateSearchConfiguration = connection.WebServiceManager.AnalyticsService.GetDuplicateSearchConfiguration();
 			foreach (var kvp in duplicateSearchConfiguration.DuplicateSearchFolderConfigurationArray)
-			{
-
+			{ 
 				Console.WriteLine(kvp.FolderId);
 			}
 
