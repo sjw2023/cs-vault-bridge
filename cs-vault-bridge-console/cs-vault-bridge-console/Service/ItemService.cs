@@ -1,6 +1,7 @@
 ﻿using Autodesk.Connectivity.WebServices;
 using Autodesk.DataManagement.Client.Framework.Vault.Currency.Connections;
 using cs_vault_bridge_console.Command;
+using cs_vault_bridge_console.Util;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 using VDF = Autodesk.DataManagement.Client.Framework;
 
 namespace cs_vault_bridge_console.Service
-{ 
+{
 	internal class ItemService : BaseService
 	{
 		private Cat[] categories;
@@ -20,7 +21,8 @@ namespace cs_vault_bridge_console.Service
 		private Dictionary<string, Item> m_tableMap;
 		private DataTable m_dataTable;
 		public ItemService(string serverName, string vaultName, string userName, string password) : base(
-				userName, password, serverName, vaultName) { }
+				userName, password, serverName, vaultName)
+		{ }
 
 		private void FindItemById(long id)
 		{
@@ -72,6 +74,7 @@ namespace cs_vault_bridge_console.Service
 			Console.ReadLine();
 			base.Logout(connection);
 		}
+
 		public void ReadAllItems()
 		{
 			//login
@@ -106,6 +109,7 @@ namespace cs_vault_bridge_console.Service
 			RefreshItemList(connection);
 			base.Logout(connection);
 		}
+
 		public void RefreshItemList(Connection connection)
 		{
 			m_tableMap.Clear();
@@ -157,7 +161,7 @@ namespace cs_vault_bridge_console.Service
 				}
 				Updater<Item[]> itemsUpdater = new Updater<Item[]>("http://localhost:8080");
 				Item[] itemsArr = items.ToArray();
-				itemsUpdater.GenericPost("/post-items",itemsArr);
+				itemsUpdater.GenericPost("/post-items", itemsArr);
 			}
 
 			Console.ReadLine();
@@ -179,7 +183,7 @@ namespace cs_vault_bridge_console.Service
 			return catId;
 		}
 
-		public void AddItem( Parameter parameter)
+		public void AddItem(Parameter parameter)
 		{
 			//login
 			VDF.Vault.Currency.Connections.Connection connection;
@@ -188,7 +192,7 @@ namespace cs_vault_bridge_console.Service
 			//TODO : Parameter의 Dictionary가 null일 경우 예외 처리
 
 			//Create Item with item category
-			long catId = GetCategoryIdByName( parameter.parameters["type"], connection );
+			long catId = GetCategoryIdByName(parameter.parameters["type"], connection);
 			Item item = connection.WebServiceManager.ItemService.AddItemRevision(catId);
 
 			// set item numbering scheme
@@ -238,6 +242,133 @@ namespace cs_vault_bridge_console.Service
 			Console.ReadLine();
 			base.Logout(connection);
 		}
-	}
+		/// <summary>
+		/// Generating item tree 
+		/// </summary>
+		/// <param name="parameter"></param>
+		//	TODO :  Put this method into Tree class;
+		public void CreateItemTreeFromBOM(Parameter parameter)
+		{
+			Item item = FindItemByName(parameter);
+			VDF.Vault.Currency.Connections.Connection connection;
+			base.LogIn(out connection);
+			//	TODO : set Root Item with first item who has children
+			ItemAssoc[] itemAssocs = connection.WebServiceManager.ItemService.GetItemBOMAssociationsByItemIds(new long[] { item.Id }, false);
 
+			Node<CustomItem> root = new Node<CustomItem>(new CustomItem(), item.Id);
+			foreach (ItemAssoc BOM in itemAssocs)
+			{
+				int level = 1;
+				root.AddChild(DFSTreeGeneratorFromBOM(new Node<CustomItem>(new CustomItem(), BOM.CldItemID), connection, level));
+			}
+			//	TODO : Put root item itself also
+			Updater<Node<CustomItem>> updater = new Updater<Node<CustomItem>>("http://localhost:8080");
+			updater.GenericPost("/post-item-tree", root);
+			PrintItemTree(root, 1);
+			base.Logout(connection);
+		}
+
+		//	TODO :  Put this method into Tree class;
+		private void PrintItemTree(Node<CustomItem> root, int level)
+		{
+			if (root.Children == null)
+			{
+				return;
+			}
+			foreach (Node<CustomItem> node in root.Children)
+			{
+				for (int i = 0; i < level; i++)
+				{
+					Console.Write("--");
+				}
+				Console.WriteLine($"{level} {node.nodeID} | {node.Value.Title}");
+				PrintItemTree(node, level + 1);
+			}
+		}
+
+		//	TODO :  Put this method into Tree class;
+		//	TODO :  Join several results of query with LINQ
+		private Node<CustomItem> DFSTreeGeneratorFromBOM(Node<CustomItem> parent, Connection connection, int level)
+		{
+			ItemAssoc[] itemAssocs = connection.WebServiceManager.ItemService.GetItemBOMAssociationsByItemIds(new long[] { parent.nodeID }, false);
+			if (itemAssocs == null)
+			{
+				return parent;
+			}
+			// while looping put into chilren list and move to next recursive call
+			foreach (ItemAssoc child in itemAssocs)
+			{
+				//Getting property definitions of ITEM entity
+				PropDef[] propDefs = connection.WebServiceManager.PropertyService.GetPropertyDefinitionsByEntityClassId("ITEM");
+				List<long> tempPropDefIds = new List<long>();
+				foreach (PropDef prop in propDefs)
+				{
+					tempPropDefIds.Add(prop.Id);
+				}
+				//Getting custom property values
+				PropInst[] propertyInstance = connection.WebServiceManager.PropertyService.GetProperties("ITEM", new long[] { child.CldItemID }, tempPropDefIds.ToArray());
+				// Debug code to see what's inside of PropInst can be removed later
+				CustomItem childToAdd = new CustomItem();
+				if (propertyInstance != null)
+				{
+					foreach (PropInst instance in propertyInstance)
+					{
+						PropertyDefinition tempDef = connection.PropertyManager.GetPropertyDefinitionById(instance.PropDefId);
+						//	TODO : Think about better way rather than hard coding this
+						if (tempDef.DisplayName.Equals("이름"))
+						{
+							childToAdd.Title = (string)instance.Val;
+						}
+						if (tempDef.DisplayName.Equals("비고"))
+						{
+							childToAdd.Note = (string)instance.Val;
+						}
+					}
+				}
+				//	TODO : Put Unit type, Item Category.
+				//	Add child to parent.
+				Item[] temp = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { child.CldItemID });
+				parent.AddChild(DFSTreeGeneratorFromBOM(new Node<CustomItem>(childToAdd, child.CldItemID), connection, level++));
+			}
+			return parent;
+		}
+
+		public Item FindItemByName(Parameter parameter)
+		{
+			string name = parameter.parameters["name"];
+			//TODO : Find better searching algorithm later
+			List<Item> items = GetItemMasters();
+			foreach (Item item in items)
+			{
+				if (item.ItemNum == name)
+				{
+					return item;
+				}
+			}
+			return null;
+		}
+
+		// Read all items
+		//	TODO : Move it to ItemService.cs
+		public List<Item> GetItemMasters()
+		{
+			List<Item> items = new List<Item>();
+			VDF.Vault.Currency.Connections.Connection connection;
+			base.LogIn(out connection);
+			string bookmark = null;
+			SrchStatus status = null;
+			while (status == null || status.TotalHits > items.Count)
+			{
+				items.AddRange(connection.WebServiceManager.ItemService.FindItemRevisionsBySearchConditions(null, null, true, ref bookmark, out status));
+			}
+			int index = 1;
+			foreach (Item item in items)
+			{
+				Console.WriteLine($"{index++} | {item.ItemNum} | {item.MasterId} | {item.RevNum} | {item.Id} ");
+			}
+			base.Logout(connection);
+			return items;
+		}
+
+	}
 }
