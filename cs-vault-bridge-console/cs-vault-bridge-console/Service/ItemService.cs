@@ -24,7 +24,6 @@ namespace cs_vault_bridge_console.Service
 		public ItemService(string serverName, string vaultName, string userName, string password) : base(
 				userName, password, serverName, vaultName)
 		{ }
-
 		private void FindItemById(long id)
 		{
 			//login
@@ -75,7 +74,6 @@ namespace cs_vault_bridge_console.Service
 			Console.ReadLine();
 			base.Logout(connection);
 		}
-
 		public void ReadAllItems()
 		{
 			//login
@@ -110,7 +108,6 @@ namespace cs_vault_bridge_console.Service
 			RefreshItemList(connection);
 			base.Logout(connection);
 		}
-
 		public void RefreshItemList(Connection connection)
 		{
 			m_tableMap.Clear();
@@ -183,7 +180,6 @@ namespace cs_vault_bridge_console.Service
 			}
 			return catId;
 		}
-
 		public void AddItem(Parameter parameter)
 		{
 			//login
@@ -268,7 +264,6 @@ namespace cs_vault_bridge_console.Service
 			PrintItemTree(root, 1);
 			base.Logout(connection);
 		}
-
 		//	TODO :  Put this method into Tree class;
 		private void PrintItemTree(Node<CustomItem> root, int level)
 		{
@@ -286,7 +281,6 @@ namespace cs_vault_bridge_console.Service
 				PrintItemTree(node, level + 1);
 			}
 		}
-
 		//	TODO :  Put this method into Tree class;
 		//	TODO :  Join several results of query with LINQ
 		private Node<CustomItem> DFSTreeGeneratorFromBOM(Node<CustomItem> parent, Connection connection, int level)
@@ -333,7 +327,6 @@ namespace cs_vault_bridge_console.Service
 			}
 			return parent;
 		}
-
 		public Item FindItemByName(Parameter parameter)
 		{
 			string name = parameter.parameters["name"];
@@ -348,7 +341,6 @@ namespace cs_vault_bridge_console.Service
 			}
 			return null;
 		}
-
 		// Read all items
 		//	TODO : Move it to ItemService.cs
 		public List<Item> GetItemMasters()
@@ -370,6 +362,38 @@ namespace cs_vault_bridge_console.Service
 			base.Logout(connection);
 			return items;
 		}
+		// TODO : have this method to return result as File id
+		public ItemFileAssoc[] GetFileAssociationsByMasterItemNum( Parameter parameter ) {
+			Item item = this.FindItemByName(parameter);
 
+			VDF.Vault.Currency.Connections.Connection connection;
+			base.LogIn(out connection);
+
+			//	Get File associations with ids
+			ItemFileAssoc[] assocs = connection.WebServiceManager.ItemService.GetItemFileAssociationsByItemIds(new long[] { item.Id }, ItemFileLnkTypOpt.Primary);
+			foreach (ItemFileAssoc assoc in assocs) {
+				Console.WriteLine($"{item.ItemNum} has {assoc.FileName} and its id is {assoc.CldFileId}");
+
+				// check if result above is corret, this is unnecessary cod3
+				File temp = connection.WebServiceManager.DocumentService.GetFileById(assoc.CldFileId);
+				Console.WriteLine($"this is for double checking purpose file id  above has this name {temp.Name}");
+				Console.WriteLine($"The viewer link for this file is http://{this.serverName}/AutodeskTC/{this.vaultName}/viewer?file={assoc.CldFileId}");
+			}
+			base.Logout(connection);
+			return assocs;
+		}
+		public void PrintBomOfItem(Item item) {
+			VDF.Vault.Currency.Connections.Connection connection;
+			base.LogIn(out connection);
+			//Read all BOMs of each items
+			ItemAssoc[] itemAssocs = connection.WebServiceManager.ItemService.GetItemBOMAssociationsByItemIds(new long[] { item.Id }, true);
+			foreach (ItemAssoc itemAssoc in itemAssocs)
+			{
+				Item[] temp = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { itemAssoc.ParItemID });
+				Item[] child = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { itemAssoc.CldItemID });
+				Console.WriteLine($"Parent : {itemAssoc.ParItemMasterID} id : {itemAssoc.Id} | Parent Item name : {temp[0].ItemNum} | {itemAssoc.CldItemID} | {child[0].ItemNum}");
+			}
+			base.Logout(connection);
+		}
 	}
 }

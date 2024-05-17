@@ -19,31 +19,6 @@ namespace cs_vault_bridge_console.Service
 {
 	internal class TestService : BaseService
 	{
-		
-		// TODO : have this method to return result as File id
-		public ItemFileAssoc[] GetFileAssociationsByMasterItemNum( Parameter parameter ) {
-			//	TODO remove getting item part before merge this method into ItemService
-			ItemService tempService = new ItemService(this.serverName, this.vaultName, this.userName, this.password);
-			Item item = tempService.FindItemByName(parameter);
-
-			VDF.Vault.Currency.Connections.Connection connection;
-			base.LogIn(out connection);
-
-			//	Get File associations with ids
-			ItemFileAssoc[] assocs = connection.WebServiceManager.ItemService.GetItemFileAssociationsByItemIds(new long[] { item.Id }, ItemFileLnkTypOpt.Primary);
-			foreach (ItemFileAssoc assoc in assocs) {
-				Console.WriteLine($"{item.ItemNum} has {assoc.FileName} and its id is {assoc.CldFileId}");
-
-				// check if result above is corret, this is unnecessary cod3
-				File temp = connection.WebServiceManager.DocumentService.GetFileById(assoc.CldFileId);
-				Console.WriteLine($"this is for double checking purpose file id  above has this name {temp.Name}");
-				Console.WriteLine($"The viewer link for this file is http://192.168.10.250/AutodeskTC/DTcenter/viewer?file={assoc.CldFileId}");
-				Console.WriteLine($"The viewer link for this file is http://{this.serverName}/AutodeskTC/{this.vaultName}/viewer?file={assoc.CldFileId}");
-			}
-			base.Logout(connection);
-			return assocs;
-		}
-
 		public TestService(string serverName, string vaultName, string userName, string password)
 			: base(userName, password, serverName, vaultName) { }
 
@@ -62,20 +37,6 @@ namespace cs_vault_bridge_console.Service
 						Console.WriteLine(value);
 					}
 				}
-			}
-			base.Logout(connection);
-		}
-
-		public void PrintBomOfItem(Item item) {
-			VDF.Vault.Currency.Connections.Connection connection;
-			base.LogIn(out connection);
-			//Read all BOMs of each items
-			ItemAssoc[] itemAssocs = connection.WebServiceManager.ItemService.GetItemBOMAssociationsByItemIds(new long[] { item.Id }, true);
-			foreach (ItemAssoc itemAssoc in itemAssocs)
-			{
-				Item[] temp = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { itemAssoc.ParItemID });
-				Item[] child = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { itemAssoc.CldItemID });
-				Console.WriteLine($"Parent : {itemAssoc.ParItemMasterID} id : {itemAssoc.Id} | Parent Item name : {temp[0].ItemNum} | {itemAssoc.CldItemID} | {child[0].ItemNum}");
 			}
 			base.Logout(connection);
 		}
