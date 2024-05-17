@@ -67,8 +67,9 @@ namespace cs_vault_bridge_console
 				//Item item = testService.FindItemByName(parameter);
 				//testService.PrintBomOfItem(item);
 				//testService.GetBOMList(item);
-				testService.CreateItemTreeFromBOM(parameter);
+				//testService.CreateItemTreeFromBOM(parameter);
 				//testService.PrintPropertyValues();
+				testService.GetFileAssociationsByMasterItemNum(parameter);
 				Console.WriteLine("Call done");
 				Console.ReadLine();
 			}

@@ -1,5 +1,6 @@
 ﻿using Autodesk.Connectivity.WebServices;
 using Autodesk.DataManagement.Client.Framework.Vault.Currency.Connections;
+using Autodesk.DataManagement.Client.Framework.Vault.Currency.Properties;
 using cs_vault_bridge_console.Command;
 using cs_vault_bridge_console.Util;
 using System;

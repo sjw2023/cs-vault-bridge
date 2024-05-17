@@ -19,6 +19,31 @@ namespace cs_vault_bridge_console.Service
 {
 	internal class TestService : BaseService
 	{
+		
+		// TODO : have this method to return result as File id
+		public ItemFileAssoc[] GetFileAssociationsByMasterItemNum( Parameter parameter ) {
+			//	TODO remove getting item part before merge this method into ItemService
+			ItemService tempService = new ItemService(this.serverName, this.vaultName, this.userName, this.password);
+			Item item = tempService.FindItemByName(parameter);
+
+			VDF.Vault.Currency.Connections.Connection connection;
+			base.LogIn(out connection);
+
+			//	Get File associations with ids
+			ItemFileAssoc[] assocs = connection.WebServiceManager.ItemService.GetItemFileAssociationsByItemIds(new long[] { item.Id }, ItemFileLnkTypOpt.Primary);
+			foreach (ItemFileAssoc assoc in assocs) {
+				Console.WriteLine($"{item.ItemNum} has {assoc.FileName} and its id is {assoc.CldFileId}");
+
+				// check if result above is corret, this is unnecessary cod3
+				File temp = connection.WebServiceManager.DocumentService.GetFileById(assoc.CldFileId);
+				Console.WriteLine($"this is for double checking purpose file id  above has this name {temp.Name}");
+				Console.WriteLine($"The viewer link for this file is http://192.168.10.250/AutodeskTC/DTcenter/viewer?file={assoc.CldFileId}");
+				Console.WriteLine($"The viewer link for this file is http://{this.serverName}/AutodeskTC/{this.vaultName}/viewer?file={assoc.CldFileId}");
+			}
+			base.Logout(connection);
+			return assocs;
+		}
+
 		public TestService(string serverName, string vaultName, string userName, string password)
 			: base(userName, password, serverName, vaultName) { }
 
@@ -40,7 +65,8 @@ namespace cs_vault_bridge_console.Service
 			}
 			base.Logout(connection);
 		}
-			public void PrintBomOfItem(Item item) {
+
+		public void PrintBomOfItem(Item item) {
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
 			//Read all BOMs of each items
@@ -53,6 +79,7 @@ namespace cs_vault_bridge_console.Service
 			}
 			base.Logout(connection);
 		}
+
 		public CustomItem[] GetBOMList(Item item) {
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
@@ -72,6 +99,7 @@ namespace cs_vault_bridge_console.Service
 			base.Logout(connection);
 			return null;
 		}
+		
 		public IEnumerable<ItemAssoc> GetItemAssocByIdFromBOM(long targetId, ItemAssoc[] itemAssocs) { 
 			IEnumerable<ItemAssoc> toRet =
 				from itemAssoc in itemAssocs
@@ -116,7 +144,7 @@ namespace cs_vault_bridge_console.Service
 
 		//	TODO : Move to PropertyService.cs
 		//	Create Items property definition according to Vault information
-
+		
 
 		//	TODO : Move to PropertyService.cs after complete
 		//	Get Property definitions value.
@@ -149,6 +177,7 @@ namespace cs_vault_bridge_console.Service
 
 			base.Logout(connection);
 		}
+
 		public void GetEnablementConfiguration() { 
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
