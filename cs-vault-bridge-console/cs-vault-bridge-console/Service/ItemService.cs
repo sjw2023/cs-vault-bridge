@@ -21,6 +21,7 @@ namespace cs_vault_bridge_console.Service
 		private Dictionary<long, LfCycDef> m_lifeCycleMap;
 		private Dictionary<string, Item> m_tableMap;
 		private DataTable m_dataTable;
+		public ItemService() { }
 		public ItemService(string serverName, string vaultName, string userName, string password) : base(
 				userName, password, serverName, vaultName)
 		{ }

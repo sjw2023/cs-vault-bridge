@@ -5,9 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using ItemService = cs_vault_bridge_console.Service.ItemService;
+using VDF = Autodesk.DataManagement.Client.Framework;
 
 namespace cs_vault_bridge_console
 {
@@ -17,11 +21,10 @@ namespace cs_vault_bridge_console
 		private Method method;
 		private Parameter parameter;
 
-		public Parser(string[] args) { 
-			if (args != null)
-			{
-				if (args.Length < 2)
-				{
+		public Parser(string[] args) 
+		{ 
+			if (args != null){
+				if (args.Length < 2){
 					entity = new Target(args[0]);
 				}
 				else {
@@ -40,19 +43,75 @@ namespace cs_vault_bridge_console
 				folderService.TestGetFolderStructure();
 			}
 			if (entity.Name == "item") {
-				if (method.MethodName == "getItems")
-				{
-					cs_vault_bridge_console.Service.ItemService itemService = new cs_vault_bridge_console.Service.ItemService("192.168.10.250", "DTcenter", "DTcenter", "1234");
+				cs_vault_bridge_console.Service.ItemService itemService = new cs_vault_bridge_console.Service.ItemService("192.168.10.250", "DTcenter", "DTcenter", "1234");
+				MethodInfo mi = itemService.GetType().GetTypeInfo().GetMethod(method.MethodName);
+				if (method.MethodName == "getItems"){
 					itemService.ReadAllItems();
 				}
+				if (method.MethodName == "GetFileAssociationsByMasterItemNum") { 
+					itemService.GetFileAssociationsByMasterItemNum(parameter);
+				}
+				if (method.MethodName == "") { 
+				}
 			}
-			if(entity.Name == "property")
-			{
-				if (method.MethodName == "getPropertiesByEntityClass")
-				{
-					cs_vault_bridge_console.Service.PropertyService propertyService = new cs_vault_bridge_console.Service.PropertyService("192.168.10.250", "DTcenter", "DTcenter", "1234");
+			if(entity.Name == "property"){
+				cs_vault_bridge_console.Service.PropertyService propertyService = new cs_vault_bridge_console.Service.PropertyService("192.168.10.250", "DTcenter", "DTcenter", "1234");
+				if (method.MethodName == "getPropertiesByEntityClass"){
 					propertyService.GetCategoriesByEntityClassId(parameter);
 				}
+			}
+			if (entity.Name == "VaultItemService") { 
+				//	TODO :  Find the way to make Reflection more generic
+				VDF.Vault.Currency.Connections.Connection connection; 
+				VDF.Vault.Results.LogInResult results = VDF.Vault.Library.ConnectionManager.LogIn(
+							"192.168.10.250", "DTcenter", "DTcenter", "1234"
+							//"192.168.10.250", "DTcenter", "joowon.suh@woosungautocon.com", "R-6qEbT#*nrJLZp"
+							, VDF.Vault.Currency.Connections.AuthenticationFlags.Standard, null
+							) ;
+				if (!results.Success)
+				{
+					foreach (var key in results.ErrorMessages.Keys)
+					{
+						Console.WriteLine(results.ErrorMessages[key]);
+					}
+				}
+				connection = results.Connection;
+				try
+				{
+					MethodInfo mi = connection.WebServiceManager.ItemService.GetType().GetTypeInfo().GetMethod(this.method.MethodName);
+					var instance = connection.WebServiceManager.ItemService;
+					Object[] parameters = new object[parameter.parameters.Count];
+					int index1 = 0 ;
+					ParameterInfo[] info = mi.GetParameters();
+					//	TODO : when the parameter is array.
+					foreach (var value in parameter.parameters.Values) {
+						Type paramType = info[index1].ParameterType;
+						parameters[index1++] = Convert.ChangeType( value, paramType);
+					}
+					////for (int index = 0; index < parameter.parameters.Count; index++) { 
+						//parameters[index] = Convert.ChangeType(parameter.parameters.Values()[index], typeof(int));
+					//}
+					Console.WriteLine ( mi.ReturnParameter );
+					//	TODO : Make it more generic form
+
+					Type returnType = mi.ReturnType;
+					var returnObject = Activator.CreateInstance( returnType );
+					returnObject = (int)Convert.ChangeType( mi.Invoke(instance, parameters), mi.ReturnType);
+					Console.WriteLine(returnObject);
+
+					var updateObject = Activator.CreateInstance(typeof( Updater<>).MakeGenericType(returnType));
+					var prop = updateObject.GetType().GetProperty("baseUrl");
+					prop.SetValue(updateObject, "http://localhost:8080/");
+
+
+					//updateObject.GenericPost("post-item", ins);
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex.ToString(), "Error");
+					return;
+				}
+				Console.ReadLine();
 			}
 			if (entity.Name == "test") { 
 				TestService testService = new TestService("192.168.10.250", "DTcenter", "DTcenter", "1234");
@@ -69,7 +128,6 @@ namespace cs_vault_bridge_console
 				//testService.GetBOMList(item);
 				//testService.CreateItemTreeFromBOM(parameter);
 				//testService.PrintPropertyValues();
-				testService.GetFileAssociationsByMasterItemNum(parameter);
 				Console.WriteLine("Call done");
 				Console.ReadLine();
 			}
@@ -79,28 +137,8 @@ namespace cs_vault_bridge_console
 
 
 		}
-
 	}
-	//		public void DirectCall(string serviceName, string method, string[] args)
-		//{
-		//	try
-		//	{
-		//		// Start at the root Folder.
-		//		VDF.Vault.Currency.Entities.Folder root = m_connection.FolderManager.RootFolder;
-		//		// Call a function which prints all files in a Folder and sub-Folders
-		//		MethodInfo mi = m_connection.WebServiceManager.DocumentService.GetType().GetTypeInfo().GetMethod(method);
-		//		File[] childFiles = (File[])mi.Invoke(m_connection.WebServiceManager.DocumentService, new object[] { root.Id, false });
-		//		///// Send to spring boot
-		//		Updater<File[]> updater1 = new Updater<File[]>("http://localhost:8080/");
-		//		updater1.GenericPost("post-files", childFiles);
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		Console.WriteLine(ex.ToString(), "Error");
-		//		return;
-		//	}
-		//}
-		//	}
+
 
 	enum CommandName 
 	{

@@ -11,7 +11,7 @@ namespace cs_vault_bridge_console
 {
 	internal class Updater<T>
 	{
-		public string baseUrl { get; set; }
+		public string baseUrl { get { return this.baseUrl; } set { this.baseUrl = value; } }
 		static readonly HttpClient client = new HttpClient();
 		LinkedList<T> list = new LinkedList<T>();
 		public Updater(string url){
