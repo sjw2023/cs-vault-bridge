@@ -1,6 +1,7 @@
 ﻿using Autodesk.Connectivity.WebServices;
 using cs_vault_bridge_console.Command;
 using cs_vault_bridge_console.Service;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -37,7 +38,7 @@ namespace cs_vault_bridge_console
 				//TODO : Throw exception for null case.
 			}
 		}
-		public void Execute(  ) {
+		public void Execute() {
 			if (entity.Name == "folder") {
 				FolderService folderService = new FolderService("192.168.10.250", "DTcenter", "DTcenter", "1234");
 				folderService.TestGetFolderStructure();
@@ -52,6 +53,9 @@ namespace cs_vault_bridge_console
 					itemService.GetFileAssociationsByMasterItemNum(parameter);
 				}
 				if (method.MethodName == "") { 
+				}
+				foreach (var parameterInfo in mi.GetParameters()) {
+
 				}
 			}
 			if(entity.Name == "property"){
@@ -80,30 +84,33 @@ namespace cs_vault_bridge_console
 				{
 					MethodInfo mi = connection.WebServiceManager.ItemService.GetType().GetTypeInfo().GetMethod(this.method.MethodName);
 					var instance = connection.WebServiceManager.ItemService;
-					Object[] parameters = new object[parameter.parameters.Count];
-					int index1 = 0 ;
 					ParameterInfo[] info = mi.GetParameters();
+					Object[] parameters = new Object[info.Length];
+					int parametersIndex = 0;
 					//	TODO : when the parameter is array.
-					foreach (var value in parameter.parameters.Values) {
-						Type paramType = info[index1].ParameterType;
-						parameters[index1++] = Convert.ChangeType( value, paramType);
+					foreach (ParameterInfo parameterInfo in mi.GetParameters()) {
+						if (parameterInfo.ParameterType.GetTypeInfo().IsArray)
+						{
+							IList<JToken> jsonResults = parameter.ParameterObject[parameterInfo.Name].ToList();
+							parameters[parametersIndex] = Array.CreateInstance(parameterInfo.ParameterType, jsonResults.Count);
+							parameters[parametersIndex++] = jsonResults;
+						}
+						else
+						{
+							var jsonResult = parameter.ParameterObject[parameterInfo.Name];
+							parameters[parametersIndex] = Activator.CreateInstance(parameterInfo.ParameterType);
+							parameters[parametersIndex++] = jsonResult;
+						}
 					}
-					////for (int index = 0; index < parameter.parameters.Count; index++) { 
-						//parameters[index] = Convert.ChangeType(parameter.parameters.Values()[index], typeof(int));
-					//}
-					Console.WriteLine ( mi.ReturnParameter );
 					//	TODO : Make it more generic form
-
 					Type returnType = mi.ReturnType;
 					var returnObject = Activator.CreateInstance( returnType );
-					returnObject = (int)Convert.ChangeType( mi.Invoke(instance, parameters), mi.ReturnType);
+					returnObject = (int)Convert.ChangeType(mi.Invoke(instance, parameters), mi.ReturnType);
 					Console.WriteLine(returnObject);
 
 					var updateObject = Activator.CreateInstance(typeof( Updater<>).MakeGenericType(returnType));
 					var prop = updateObject.GetType().GetProperty("baseUrl");
 					prop.SetValue(updateObject, "http://localhost:8080/");
-
-
 					//updateObject.GenericPost("post-item", ins);
 				}
 				catch (Exception ex)

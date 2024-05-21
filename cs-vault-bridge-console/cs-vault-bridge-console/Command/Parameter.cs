@@ -19,13 +19,12 @@ namespace cs_vault_bridge_console.Command
 			//	this.parameters.Add(splited[0], splited[1]);
 			//};
 			foreach(var parameter in parameters) {
-				JObject jobject = JObject.Parse(parameter);
-				foreach (long id in jobject["ids"].Children().ToList()) { 
-					Console.WriteLine(id);
-				}
-				Console.WriteLine(jobject["type"]);
+				this.parameterObject = JObject.Parse(parameter);
+				Console.WriteLine($"Parameter has been created");
 			}
 		}
+		private JObject parameterObject;
+		public JObject ParameterObject { get { return this.parameterObject; } set { this.parameterObject = value; } }
 		public Dictionary<string, string> parameters;
 	}
 }
