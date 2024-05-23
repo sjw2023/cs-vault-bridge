@@ -7,18 +7,12 @@
       "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\command\\parser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|cs-vault-bridge-console||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\command\\parameter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\command\\parameter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\util\\updater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\util\\updater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\util\\updater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|6185191f-1008-4fb2-a715-3a4e4f27e610"
     }
   ],
   "DocumentGroupContainers": [
@@ -28,11 +22,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Updater.cs",
               "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Util\\Updater.cs",
               "RelativeDocumentMoniker": "cs-vault-bridge-console\\Util\\Updater.cs",
@@ -40,20 +34,7 @@
               "RelativeToolTip": "cs-vault-bridge-console\\Util\\Updater.cs",
               "ViewState": "AQIAAAkAAAAAAAAAAAAAABEAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-21T02:07:10.185Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "cs-vault-bridge-console",
-              "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\cs-vault-bridge-console.csproj",
-              "RelativeDocumentMoniker": "cs-vault-bridge-console\\cs-vault-bridge-console.csproj",
-              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\cs-vault-bridge-console.csproj*",
-              "RelativeToolTip": "cs-vault-bridge-console\\cs-vault-bridge-console.csproj*",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-05-21T01:27:54.392Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-21T02:07:10.185Z"
             },
             {
               "$type": "Document",
@@ -61,16 +42,16 @@
               "Title": "Parser.cs",
               "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Command\\Parser.cs",
               "RelativeDocumentMoniker": "cs-vault-bridge-console\\Command\\Parser.cs",
-              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Command\\Parser.cs",
-              "RelativeToolTip": "cs-vault-bridge-console\\Command\\Parser.cs",
-              "ViewState": "AQIAAFgAAAAAAAAAAAAlwHMAAAAEAAAA",
+              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Command\\Parser.cs*",
+              "RelativeToolTip": "cs-vault-bridge-console\\Command\\Parser.cs*",
+              "ViewState": "AQIAAFAAAAAAAAAAAAAlwG8AAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-21T00:12:46.225Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Parameter.cs",
               "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Command\\Parameter.cs",
               "RelativeDocumentMoniker": "cs-vault-bridge-console\\Command\\Parameter.cs",
@@ -78,8 +59,7 @@
               "RelativeToolTip": "cs-vault-bridge-console\\Command\\Parameter.cs",
               "ViewState": "AQIAAAMAAAAAAAAAAAAAABUAAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-17T07:20:37.595Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-17T07:20:37.595Z"
             }
           ]
         },
@@ -90,31 +70,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "9b5da796-7401-4a10-afcb-82833e3ea569",
-        "Display": 1,
-        "X": 323,
-        "Y": 144,
-        "Width": 1464,
-        "Height": 684,
-        "WindowState": 2
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": -1,
-          "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:323948898:0:{81164725-9a96-4ece-a4cb-440d8fd285e5}"
             }
           ]
         }

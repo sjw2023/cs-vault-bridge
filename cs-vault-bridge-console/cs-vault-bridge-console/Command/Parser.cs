@@ -67,19 +67,19 @@ namespace cs_vault_bridge_console
 			if (entity.Name == "VaultItemService") { 
 				//	TODO :  Find the way to make Reflection more generic
 				VDF.Vault.Currency.Connections.Connection connection; 
-				VDF.Vault.Results.LogInResult results = VDF.Vault.Library.ConnectionManager.LogIn(
+				VDF.Vault.Results.LogInResult loginResults = VDF.Vault.Library.ConnectionManager.LogIn(
 							"192.168.10.250", "DTcenter", "DTcenter", "1234"
 							//"192.168.10.250", "DTcenter", "joowon.suh@woosungautocon.com", "R-6qEbT#*nrJLZp"
 							, VDF.Vault.Currency.Connections.AuthenticationFlags.Standard, null
 							) ;
-				if (!results.Success)
+				if (!loginResults.Success)
 				{
-					foreach (var key in results.ErrorMessages.Keys)
+					foreach (var key in loginResults.ErrorMessages.Keys)
 					{
-						Console.WriteLine(results.ErrorMessages[key]);
+						Console.WriteLine(loginResults.ErrorMessages[key]);
 					}
 				}
-				connection = results.Connection;
+				connection = loginResults.Connection;
 				try
 				{
 					MethodInfo mi = connection.WebServiceManager.ItemService.GetType().GetTypeInfo().GetMethod(this.method.MethodName);
@@ -91,9 +91,15 @@ namespace cs_vault_bridge_console
 					foreach (ParameterInfo parameterInfo in mi.GetParameters()) {
 						if (parameterInfo.ParameterType.GetTypeInfo().IsArray)
 						{
+							int listIndex = 0;
 							IList<JToken> jsonResults = parameter.ParameterObject[parameterInfo.Name].ToList();
-							parameters[parametersIndex] = Array.CreateInstance(parameterInfo.ParameterType, jsonResults.Count);
-							parameters[parametersIndex++] = jsonResults;
+							//parameters[parametersIndex]
+							Object obj = Array.CreateInstance(parameterInfo.ParameterType, jsonResults.Count);
+							parameters[parametersIndex] = obj;
+							foreach (var value in jsonResults.Values()) {
+								parameters[parametersIndex] = value;
+							}
+							parametersIndex++;
 						}
 						else
 						{
@@ -104,11 +110,15 @@ namespace cs_vault_bridge_console
 					}
 					//	TODO : Make it more generic form
 					Type returnType = mi.ReturnType;
-					var returnObject = Activator.CreateInstance( returnType );
-					returnObject = (int)Convert.ChangeType(mi.Invoke(instance, parameters), mi.ReturnType);
+					Object returnObject;
+					if (returnType.IsArray) {
+						returnObject = Array.CreateInstance(returnType, 100);
+					}
+					returnObject = mi.Invoke(instance, parameters);
+					//returnObject = (int)Convert.ChangeType(mi.Invoke(instance, parameters), mi.ReturnType);
 					Console.WriteLine(returnObject);
 
-					var updateObject = Activator.CreateInstance(typeof( Updater<>).MakeGenericType(returnType));
+					var updateObject = Activator.CreateInstance(typeof(Updater<>).MakeGenericType(returnType));
 					var prop = updateObject.GetType().GetProperty("baseUrl");
 					prop.SetValue(updateObject, "http://localhost:8080/");
 					//updateObject.GenericPost("post-item", ins);
