@@ -98,6 +98,7 @@ namespace cs_vault_bridge_console
 							parameters[parametersIndex] = obj;
 							foreach (var value in jsonResults.Values()) {
 								parameters[parametersIndex] = value;
+								Console.WriteLine($"The parameter value is : {value}")
 							}
 							parametersIndex++;
 						}
