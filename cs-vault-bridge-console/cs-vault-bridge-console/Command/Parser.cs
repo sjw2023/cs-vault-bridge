@@ -97,8 +97,9 @@ namespace cs_vault_bridge_console
 							Object obj = Array.CreateInstance(parameterInfo.ParameterType, jsonResults.Count);
 							parameters[parametersIndex] = obj;
 							foreach (var value in jsonResults.Values()) {
+								obj[listIndex] = value;								
 								parameters[parametersIndex] = value;
-								Console.WriteLine($"The parameter value is : {value}")
+								Console.WriteLine($"Object has this : {obj[listIndex++]} |The parameter value is : {value}");
 							}
 							parametersIndex++;
 						}
