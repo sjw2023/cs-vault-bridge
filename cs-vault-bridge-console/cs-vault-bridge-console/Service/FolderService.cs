@@ -53,7 +53,7 @@ namespace cs_vault_bridge_console.Service
 			//File[] childFiles = (File[])mi.Invoke(connection.WebServiceManager.DocumentService, new object[] { parentFolder.Id, false });
 			/////Update to spring boot
 			Updater<File[]> updater1 = new Updater<File[]>("http://localhost:8080");
-			updater1.GenericPost( updater1.baseUrl+"/post-files", childFiles);
+			updater1.GenericPost( updater1.BaseUrl+"/post-files", childFiles);
 
 			// print out any Files we find.
 			if (childFiles != null && childFiles.Any())

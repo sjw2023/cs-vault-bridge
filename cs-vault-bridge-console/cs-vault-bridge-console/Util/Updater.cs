@@ -11,9 +11,13 @@ namespace cs_vault_bridge_console
 {
 	internal class Updater<T>
 	{
-		public string baseUrl { get { return this.baseUrl; } set { this.baseUrl = value; } }
+		private string baseUrl;
+		public string BaseUrl{ get { return this.baseUrl; } set { this.baseUrl = value; } }
 		static readonly HttpClient client = new HttpClient();
 		LinkedList<T> list = new LinkedList<T>();
+		public Updater() {
+			baseUrl = "http://localhost:8080/";
+		}
 		public Updater(string url){
 			baseUrl = url;
 		}

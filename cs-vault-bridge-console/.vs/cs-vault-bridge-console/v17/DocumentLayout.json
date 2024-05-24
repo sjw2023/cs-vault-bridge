@@ -7,12 +7,30 @@
       "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\command\\parser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\command\\parameter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\command\\parameter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\util\\updater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\util\\updater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\util\\updater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\util\\updater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\service\\propertyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\service\\propertyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\service\\folderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\service\\folderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\service\\itemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\service\\itemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\service\\baseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\service\\baseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|cs-vault-bridge-console||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|6185191f-1008-4fb2-a715-3a4e4f27e610"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,19 +40,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
+              "Title": "cs-vault-bridge-console",
+              "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\cs-vault-bridge-console.csproj",
+              "RelativeDocumentMoniker": "cs-vault-bridge-console\\cs-vault-bridge-console.csproj",
+              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\cs-vault-bridge-console.csproj",
+              "RelativeToolTip": "cs-vault-bridge-console\\cs-vault-bridge-console.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-05-24T07:33:52.163Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "BaseService.cs",
+              "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\BaseService.cs",
+              "RelativeDocumentMoniker": "cs-vault-bridge-console\\Service\\BaseService.cs",
+              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\BaseService.cs",
+              "RelativeToolTip": "cs-vault-bridge-console\\Service\\BaseService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T07:31:46.771Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Updater.cs",
               "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Util\\Updater.cs",
               "RelativeDocumentMoniker": "cs-vault-bridge-console\\Util\\Updater.cs",
               "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Util\\Updater.cs",
               "RelativeToolTip": "cs-vault-bridge-console\\Util\\Updater.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAABEAAAAQAAAA",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAAAA0AAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-21T02:07:10.185Z"
+              "WhenOpened": "2024-05-24T05:12:30.348Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -44,22 +88,49 @@
               "RelativeDocumentMoniker": "cs-vault-bridge-console\\Command\\Parser.cs",
               "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Command\\Parser.cs*",
               "RelativeToolTip": "cs-vault-bridge-console\\Command\\Parser.cs*",
-              "ViewState": "AQIAAFAAAAAAAAAAAAAlwG8AAAAFAAAA",
+              "ViewState": "AQIAAKIAAAAAAAAAAAAAALgAAABmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-21T00:12:46.225Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Parameter.cs",
-              "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Command\\Parameter.cs",
-              "RelativeDocumentMoniker": "cs-vault-bridge-console\\Command\\Parameter.cs",
-              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Command\\Parameter.cs",
-              "RelativeToolTip": "cs-vault-bridge-console\\Command\\Parameter.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAABUAAAAEAAAA",
+              "DocumentIndex": 4,
+              "Title": "ItemService.cs",
+              "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\ItemService.cs",
+              "RelativeDocumentMoniker": "cs-vault-bridge-console\\Service\\ItemService.cs",
+              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\ItemService.cs",
+              "RelativeToolTip": "cs-vault-bridge-console\\Service\\ItemService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-17T07:20:37.595Z"
+              "WhenOpened": "2024-05-24T04:51:30.266Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FolderService.cs",
+              "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\FolderService.cs",
+              "RelativeDocumentMoniker": "cs-vault-bridge-console\\Service\\FolderService.cs",
+              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\FolderService.cs",
+              "RelativeToolTip": "cs-vault-bridge-console\\Service\\FolderService.cs",
+              "ViewState": "AQIAADAAAAAAAAAAAAAuwDkAAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T05:17:21.732Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PropertyService.cs",
+              "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\PropertyService.cs",
+              "RelativeDocumentMoniker": "cs-vault-bridge-console\\Service\\PropertyService.cs",
+              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\PropertyService.cs",
+              "RelativeToolTip": "cs-vault-bridge-console\\Service\\PropertyService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T05:28:37.275Z",
+              "EditorCaption": ""
             }
           ]
         },
