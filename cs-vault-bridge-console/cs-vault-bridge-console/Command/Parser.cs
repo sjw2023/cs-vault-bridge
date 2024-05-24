@@ -49,27 +49,18 @@ namespace cs_vault_bridge_console
 
 			if (entity.Name == "folder") {
 				FolderService folderService = new FolderService("192.168.10.250", "DTcenter", "DTcenter", "1234");
-				folderService.TestGetFolderStructure();
+				MethodInfo mi = folderService.GetType().GetTypeInfo().GetMethod(method.MethodName);
+				MethodInvokation(mi, folderService);
 			}
 			if (entity.Name == "item") {
 				cs_vault_bridge_console.Service.ItemService itemService = new cs_vault_bridge_console.Service.ItemService("192.168.10.250", "DTcenter", "DTcenter", "1234");
 				MethodInfo mi = itemService.GetType().GetTypeInfo().GetMethod(method.MethodName);
-				//if (method.MethodName == "getItems"){
-				//	itemService.ReadAllItems();
-				//}
-				//if (method.MethodName == "GetFileAssociationsByMasterItemNum") { 
-				//	itemService.GetFileAssociationsByMasterItemNum(parameter);
-				//}
-				//if (method.MethodName == "GetItemMasters") {
-				//	itemService.GetItemMasters();
-				//}
 				MethodInvokation(mi, itemService);
 			}
 			if(entity.Name == "property"){
 				cs_vault_bridge_console.Service.PropertyService propertyService = new cs_vault_bridge_console.Service.PropertyService("192.168.10.250", "DTcenter", "DTcenter", "1234");
-				if (method.MethodName == "getPropertiesByEntityClass"){
-					propertyService.GetCategoriesByEntityClassId(parameter);
-				}
+				MethodInfo mi = propertyService.GetType().GetTypeInfo().GetMethod(method.MethodName);
+				MethodInvokation(mi, propertyService);
 			}
 			if (entity.Name.StartsWith("Vault")){
 				VDF.Vault.Currency.Connections.Connection connection; 
@@ -126,19 +117,6 @@ namespace cs_vault_bridge_console
 			}
 			if (entity.Name == "test") { 
 				TestService testService = new TestService("192.168.10.250", "DTcenter", "DTcenter", "1234");
-				//testService.TestBOM(method, parameter);
-				//testService.TestPropertyPrint(method, parameter);
-				//testService.GetServerConfigurationTest(parameter);
-				//testService.GetAllCustomEntityDefinitions(parameter);
-				//testService.GetSupportedProducts();
-				//testService.GetDuplicateSerachConfiguration();
-				//testService.GetAllAssociationPropertyDefinitionInfos();
-				//testService.GetItemMasters();
-				//Item item = testService.FindItemByName(parameter);
-				//testService.PrintBomOfItem(item);
-				//testService.GetBOMList(item);
-				//testService.CreateItemTreeFromBOM(parameter);
-				//testService.PrintPropertyValues();
 				Console.WriteLine("Call done");
 				Console.ReadLine();
 			}
