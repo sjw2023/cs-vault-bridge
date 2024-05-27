@@ -12,9 +12,8 @@ namespace cs_vault_bridge_console.Service
 {
 	internal class PropertyService : BaseService
 	{
-	public PropertyService(string serverName, string vaultName, string userName, string password) : base(
+		public PropertyService(string serverName, string vaultName, string userName, string password) : base(
 				userName, password, serverName, vaultName) { }
-
 		public void GetCategoriesByEntityClassId(Parameter parameter) {
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);

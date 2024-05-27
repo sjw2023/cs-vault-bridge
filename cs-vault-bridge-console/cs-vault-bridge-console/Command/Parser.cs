@@ -26,6 +26,7 @@ namespace cs_vault_bridge_console
 		private string host;
 		private string endPoint;
 
+		public Parser() { }
 		public Parser(string[] args) 
 		{ 
 			if (args != null){
@@ -120,11 +121,6 @@ namespace cs_vault_bridge_console
 				Console.WriteLine("Call done");
 				Console.ReadLine();
 			}
-		}
-		public Parser() { 
-
-
-
 		}
 		public void MethodInvokation(MethodInfo mi, object instance) { 
 			
