@@ -5,6 +5,16 @@
     {
       "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\command\\parser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\command\\parser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|cs-vault-bridge-console||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\util\\updater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\util\\updater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|6185191f-1008-4fb2-a715-3a4e4f27e610"
     }
   ],
   "DocumentGroupContainers": [
@@ -24,14 +34,36 @@
               "RelativeDocumentMoniker": "cs-vault-bridge-console\\Command\\Parser.cs",
               "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Command\\Parser.cs",
               "RelativeToolTip": "cs-vault-bridge-console\\Command\\Parser.cs",
-              "ViewState": "AQIAAAcAAAAAAAAAAAAAAAgAAAARAAAA",
+              "ViewState": "AQIAAGkAAAAAAAAAAAAgwIcAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-24T08:20:47.208Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Updater.cs",
+              "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Util\\Updater.cs",
+              "RelativeDocumentMoniker": "cs-vault-bridge-console\\Util\\Updater.cs",
+              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Util\\Updater.cs",
+              "RelativeToolTip": "cs-vault-bridge-console\\Util\\Updater.cs",
+              "ViewState": "AQIAABcAAAAAAAAAAAAAwDAAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-28T04:52:32.375Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "cs-vault-bridge-console",
+              "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\cs-vault-bridge-console.csproj",
+              "RelativeDocumentMoniker": "cs-vault-bridge-console\\cs-vault-bridge-console.csproj",
+              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\cs-vault-bridge-console.csproj*",
+              "RelativeToolTip": "cs-vault-bridge-console\\cs-vault-bridge-console.csproj*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-05-28T04:51:59.925Z",
+              "EditorCaption": ""
             }
           ]
         },
