@@ -25,6 +25,8 @@ namespace cs_vault_bridge_console
 		private Parameter parameter;
 		private string host;
 		private string endPoint;
+		private object instance;
+		private VDF.Vault.Currency.Connections.Connection connection;
 
 		public Parser() { }
 		public Parser(string[] args) 
@@ -47,83 +49,67 @@ namespace cs_vault_bridge_console
 			}
 		}
 		public void Execute() {
-
 			if (entity.Name == "folder") {
-				FolderService folderService = new FolderService("192.168.10.250", "DTcenter", "DTcenter", "1234");
-				MethodInfo mi = folderService.GetType().GetTypeInfo().GetMethod(method.MethodName);
-				MethodInvokation(mi, folderService);
+				instance = new cs_vault_bridge_console.Service.FolderService("192.168.10.250", "DTcenter", "DTcenter", "1234");
 			}
 			if (entity.Name == "item") {
-				cs_vault_bridge_console.Service.ItemService itemService = new cs_vault_bridge_console.Service.ItemService("192.168.10.250", "DTcenter", "DTcenter", "1234");
-				MethodInfo mi = itemService.GetType().GetTypeInfo().GetMethod(method.MethodName);
-				MethodInvokation(mi, itemService);
+				instance = new cs_vault_bridge_console.Service.ItemService("192.168.10.250", "DTcenter", "DTcenter", "1234");
 			}
 			if(entity.Name == "property"){
-				cs_vault_bridge_console.Service.PropertyService propertyService = new cs_vault_bridge_console.Service.PropertyService("192.168.10.250", "DTcenter", "DTcenter", "1234");
-				MethodInfo mi = propertyService.GetType().GetTypeInfo().GetMethod(method.MethodName);
-				MethodInvokation(mi, propertyService);
+				instance = new cs_vault_bridge_console.Service.PropertyService("192.168.10.250", "DTcenter", "DTcenter", "1234");
+			}
+			if (entity.Name == "test") { 
+				instance = new cs_vault_bridge_console.Service.TestService("192.168.10.250", "DTcenter", "DTcenter", "1234");
 			}
 			if (entity.Name.StartsWith("Vault")){
-				VDF.Vault.Currency.Connections.Connection connection; 
-				VDF.Vault.Results.LogInResult loginResults = VDF.Vault.Library.ConnectionManager.LogIn(
-							"192.168.10.250", "DTcenter", "DTcenter", "1234"
-							//"192.168.10.250", "DTcenter", "joowon.suh@woosungautocon.com", "R-6qEbT#*nrJLZp"
-							, VDF.Vault.Currency.Connections.AuthenticationFlags.Standard, null
-							) ;
-				if (!loginResults.Success)
-				{
-					foreach (var key in loginResults.ErrorMessages.Keys)
-					{
-						Console.WriteLine(loginResults.ErrorMessages[key]);
-					}
-				}
-				connection = loginResults.Connection;
-				MethodInfo mi = null;
-				Object instance = null;
+				// Without out keyword compiler will say "use of uninitialized variable warning"
+				Login(out connection);
 				switch (entity.Name) {
 					case "VaultItemService":
-						mi = connection.WebServiceManager.ItemService.GetType().GetTypeInfo().GetMethod(this.method.MethodName);
 						instance = connection.WebServiceManager.ItemService;
 						break;
 					case "VaultPropertyService":
-						mi = connection.WebServiceManager.PropertyService.GetType().GetTypeInfo().GetMethod(this.method.MethodName);
 						instance = connection.WebServiceManager.PropertyService;
 						break;
 					case "VaultCategoryService":
-						mi = connection.WebServiceManager.CategoryService.GetType().GetTypeInfo().GetMethod(this.method.MethodName);
 						instance = connection.WebServiceManager.CategoryService;
 						break;
 					case "VaultChangeOrder":		
-						mi = connection.WebServiceManager.ChangeOrderService.GetType().GetTypeInfo().GetMethod(this.method.MethodName);
 						instance = connection.WebServiceManager.ChangeOrderService;
 						break;
 					case "VaultDocumentService":
-						mi = connection.WebServiceManager.DocumentService.GetType().GetTypeInfo().GetMethod(this.method.MethodName);
 						instance = connection.WebServiceManager.DocumentService;
 						break;
 					case "VaultFileStoreService":
-						mi = connection.WebServiceManager.FilestoreService.GetType().GetTypeInfo().GetMethod(this.method.MethodName);
 						instance = connection.WebServiceManager.FilestoreService;
 						break;
 					case "VaultLifeCycleService":
-						mi = connection.WebServiceManager.LifeCycleService.GetType().GetTypeInfo().GetMethod(this.method.MethodName);
 						instance = connection.WebServiceManager.LifeCycleService;
 						break;
 					case "VaultNumberingService":
-						mi = connection.WebServiceManager.NumberingService.GetType().GetTypeInfo().GetMethod(this.method.MethodName);
 						instance = connection.WebServiceManager.NumberingService;
 						break;
 				}
-				MethodInvokation(mi, instance);
 			}
-			if (entity.Name == "test") { 
-				TestService testService = new TestService("192.168.10.250", "DTcenter", "DTcenter", "1234");
-				Console.WriteLine("Call done");
-				Console.ReadLine();
-			}
+			MethodInvokation(instance);
 		}
-		public void MethodInvokation(MethodInfo mi, object instance) { 
-			
+		private void Login(out Connection connection) { 
+			VDF.Vault.Results.LogInResult loginResults = VDF.Vault.Library.ConnectionManager.LogIn(
+						"192.168.10.250", "DTcenter", "DTcenter", "1234"
+						//"192.168.10.250", "DTcenter", "joowon.suh@woosungautocon.com", "R-6qEbT#*nrJLZp"
+						, VDF.Vault.Currency.Connections.AuthenticationFlags.Standard, null
+						) ;
+			if (!loginResults.Success)
+			{
+				foreach (var key in loginResults.ErrorMessages.Keys)
+				{
+					Console.WriteLine(loginResults.ErrorMessages[key]);
+				}
+			}
+			connection = loginResults.Connection;
+		}
+		public void MethodInvokation( object instance) { 
+			var mi = instance.GetType().GetTypeInfo().GetMethod(this.method.MethodName);
 			try
 			{
 				ParameterInfo[] info = mi.GetParameters();
@@ -157,7 +143,6 @@ namespace cs_vault_bridge_console
 			}
 			Console.WriteLine(mi.ReturnType);
 			var updateObject = Activator.CreateInstance(typeof(Updater<>).MakeGenericType(mi.ReturnType), host );
-			//	TODO : return URL, have to be generic its fixed.
 			updateObject.GetType().InvokeMember("GenericPost", System.Reflection.BindingFlags.InvokeMethod, null, updateObject, new object[] { endPoint, returnObject });
 		}
 		catch (Exception ex)
@@ -165,15 +150,6 @@ namespace cs_vault_bridge_console
 			Console.WriteLine(ex.ToString(), "Error");
 			return;
 		}
-		Console.ReadLine();
 		}
-	}
-
-
-	enum CommandName 
-	{
-		Direct,
-		Root,
-		Category
 	}
 }
