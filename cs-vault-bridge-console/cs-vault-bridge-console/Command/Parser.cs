@@ -52,26 +52,27 @@ namespace cs_vault_bridge_console
 		public void Execute() {
 			if (entity.Name == "folder") {
 				instance = new cs_vault_bridge_console.Service.FolderService("192.168.10.250", "DTcenter", "DTcenter", "1234");
+				MethodInvokation(instance);
 			}
 			if (entity.Name == "item") {
 				instance = new cs_vault_bridge_console.Service.ItemService("192.168.10.250", "DTcenter", "DTcenter", "1234");
+				MethodInvokation(instance);
 			}
 			if(entity.Name == "property"){
 				instance = new cs_vault_bridge_console.Service.PropertyService("192.168.10.250", "DTcenter", "DTcenter", "1234");
+				MethodInvokation(instance);
 			}
 			if (entity.Name == "test") { 
 				instance = new cs_vault_bridge_console.Service.TestService("192.168.10.250", "DTcenter", "DTcenter", "1234");
+				MethodInvokation(instance);
+			}
+			if (entity.Name == "test") { 
+				instance = new TestService("192.168.10.250", "DTcenter", "DTcenter", "1234");
+				MethodInvokation(instance);
 			}
 			if (entity.Name.StartsWith("Vault")){
-<<<<<<< HEAD
 				// Without out keyword compiler will say "use of uninitialized variable warning"
 				Login(out connection);
-=======
-				VDF.Vault.Currency.Connections.Connection connection;
-				Login(out connection);
-				MethodInfo mi = null;
-				Object instance = null;
->>>>>>> method-information
 				switch (entity.Name) {
 					case "VaultItemService":
 						instance = connection.WebServiceManager.ItemService;
@@ -98,9 +99,7 @@ namespace cs_vault_bridge_console
 						instance = connection.WebServiceManager.NumberingService;
 						break;
 				}
-<<<<<<< HEAD
-=======
-				MethodInvokation(mi, instance);
+				MethodInvokation(instance);
 				Logout(connection);
 			}
 			if (entity.Name == "method") {
@@ -135,12 +134,10 @@ namespace cs_vault_bridge_console
 					CsMethodInfo temp = new CsMethodInfo();
 					temp.methodName = mi.Name;
 					temp.returnType = mi.ReturnType.Name;
-					//temp.parameterTypes = new List<string>();
 					temp.parameterTypes = new string[mi.GetParameters().Length];
 					int index = 0;
 					foreach (var pi in mi.GetParameters()) {
 						temp.parameterTypes[index++] = pi.ParameterType.Name;
-						//temp.parameterTypes.Add(pi.ParameterType.Name);
 					}
 					csMethodInfos.Add(temp);
 					Console.WriteLine($"{temp.returnType} {temp.methodName}");
@@ -149,37 +146,28 @@ namespace cs_vault_bridge_console
 				Updater<CsMethodInfo[]> updater = new Updater<CsMethodInfo[]>(host);
 				updater.GenericPost(endPoint, csMethodInfos.ToArray());
 				Logout(connection);
-				
 			}
-			if (entity.Name == "test") { 
-				TestService testService = new TestService("192.168.10.250", "DTcenter", "DTcenter", "1234");
-				Console.WriteLine("Call done");
-				Console.ReadLine();
->>>>>>> method-information
-			}
-			MethodInvokation(instance);
 		}
-<<<<<<< HEAD
-		private void Login(out Connection connection) { 
-			VDF.Vault.Results.LogInResult loginResults = VDF.Vault.Library.ConnectionManager.LogIn(
-						"192.168.10.250", "DTcenter", "DTcenter", "1234"
+		public void Login(out Connection connection) {
+			VDF.Vault.Results.LogInResult results = VDF.Vault.Library.ConnectionManager.LogIn("192.168.10.250", "DTcenter", "DTcenter", "1234"
 						//"192.168.10.250", "DTcenter", "joowon.suh@woosungautocon.com", "R-6qEbT#*nrJLZp"
 						, VDF.Vault.Currency.Connections.AuthenticationFlags.Standard, null
-						) ;
-			if (!loginResults.Success)
+						);
+			if (!results.Success)
 			{
-				foreach (var key in loginResults.ErrorMessages.Keys)
+				foreach (var key in results.ErrorMessages.Keys)
 				{
-					Console.WriteLine(loginResults.ErrorMessages[key]);
+					Console.WriteLine(results.ErrorMessages[key]);
 				}
 			}
-			connection = loginResults.Connection;
+			connection = results.Connection;
 		}
-		public void MethodInvokation( object instance) { 
+		public void Logout(Connection connection)
+		{
+			VDF.Vault.Library.ConnectionManager.LogOut(connection);
+		}
+		public void MethodInvokation( object instance )  { 
 			var mi = instance.GetType().GetTypeInfo().GetMethod(this.method.MethodName);
-=======
-		public void MethodInvokation(MethodInfo mi, object instance) { 
->>>>>>> method-information
 			try
 			{
 				ParameterInfo[] info = mi.GetParameters();
@@ -220,24 +208,6 @@ namespace cs_vault_bridge_console
 			Console.WriteLine(ex.ToString(), "Error");
 			return;
 		}
-		}
-		public void Login(out Connection connection) {
-			VDF.Vault.Results.LogInResult loginResults = VDF.Vault.Library.ConnectionManager.LogIn(
-						"192.168.10.250", "DTcenter", "DTcenter", "1234"
-						//"192.168.10.250", "DTcenter", "joowon.suh@woosungautocon.com", "R-6qEbT#*nrJLZp"
-						, VDF.Vault.Currency.Connections.AuthenticationFlags.Standard, null
-						);
-			if (!loginResults.Success)
-			{
-				foreach (var key in loginResults.ErrorMessages.Keys)
-				{
-					Console.WriteLine(loginResults.ErrorMessages[key]);
-				}
-			}
-			connection = loginResults.Connection;
-		}
-		public void Logout(Connection connection) {
-			VDF.Vault.Library.ConnectionManager.LogOut(connection);
 		}
 	}
 }
