@@ -2,6 +2,7 @@
 using Autodesk.DataManagement.Client.Framework.Vault.Currency.Connections;
 using cs_vault_bridge_console.Command;
 using cs_vault_bridge_console.Service;
+using cs_vault_bridge_console.Util;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -62,8 +63,15 @@ namespace cs_vault_bridge_console
 				instance = new cs_vault_bridge_console.Service.TestService("192.168.10.250", "DTcenter", "DTcenter", "1234");
 			}
 			if (entity.Name.StartsWith("Vault")){
+<<<<<<< HEAD
 				// Without out keyword compiler will say "use of uninitialized variable warning"
 				Login(out connection);
+=======
+				VDF.Vault.Currency.Connections.Connection connection;
+				Login(out connection);
+				MethodInfo mi = null;
+				Object instance = null;
+>>>>>>> method-information
 				switch (entity.Name) {
 					case "VaultItemService":
 						instance = connection.WebServiceManager.ItemService;
@@ -90,9 +98,68 @@ namespace cs_vault_bridge_console
 						instance = connection.WebServiceManager.NumberingService;
 						break;
 				}
+<<<<<<< HEAD
+=======
+				MethodInvokation(mi, instance);
+				Logout(connection);
+			}
+			if (entity.Name == "method") {
+				VDF.Vault.Currency.Connections.Connection connection;
+				Login(out connection);
+				List<CsMethodInfo> csMethodInfos = new List<CsMethodInfo>();
+				MethodInfo[] mis = null; 
+				switch (method.MethodName) {
+					case "ItemService":
+						mis = connection.WebServiceManager.ItemService.GetType().GetTypeInfo().GetMethods();
+						break;
+					case "PropertyService":
+						mis = connection.WebServiceManager.PropertyService.GetType().GetTypeInfo().GetMethods();
+						break;
+					case "CategoryService":
+						mis = connection.WebServiceManager.CategoryService.GetType().GetTypeInfo().GetMethods();
+						break;
+					case "FileStore":  
+						mis = connection.WebServiceManager.FilestoreService.GetType().GetTypeInfo().GetMethods();
+						break;
+					case "DocumentService":
+						mis = connection.WebServiceManager.DocumentService.GetType().GetTypeInfo().GetMethods();
+						break;
+					case "LifeCycleService":
+						mis = connection.WebServiceManager.LifeCycleService.GetType().GetTypeInfo().GetMethods();
+						break;
+					case "NumberingService":
+						mis = connection.WebServiceManager.NumberingService.GetType().GetTypeInfo().GetMethods();
+						break;
+				}
+				foreach ( var mi in mis ) {
+					CsMethodInfo temp = new CsMethodInfo();
+					temp.methodName = mi.Name;
+					temp.returnType = mi.ReturnType.Name;
+					//temp.parameterTypes = new List<string>();
+					temp.parameterTypes = new string[mi.GetParameters().Length];
+					int index = 0;
+					foreach (var pi in mi.GetParameters()) {
+						temp.parameterTypes[index++] = pi.ParameterType.Name;
+						//temp.parameterTypes.Add(pi.ParameterType.Name);
+					}
+					csMethodInfos.Add(temp);
+					Console.WriteLine($"{temp.returnType} {temp.methodName}");
+				}
+
+				Updater<CsMethodInfo[]> updater = new Updater<CsMethodInfo[]>(host);
+				updater.GenericPost(endPoint, csMethodInfos.ToArray());
+				Logout(connection);
+				
+			}
+			if (entity.Name == "test") { 
+				TestService testService = new TestService("192.168.10.250", "DTcenter", "DTcenter", "1234");
+				Console.WriteLine("Call done");
+				Console.ReadLine();
+>>>>>>> method-information
 			}
 			MethodInvokation(instance);
 		}
+<<<<<<< HEAD
 		private void Login(out Connection connection) { 
 			VDF.Vault.Results.LogInResult loginResults = VDF.Vault.Library.ConnectionManager.LogIn(
 						"192.168.10.250", "DTcenter", "DTcenter", "1234"
@@ -110,6 +177,9 @@ namespace cs_vault_bridge_console
 		}
 		public void MethodInvokation( object instance) { 
 			var mi = instance.GetType().GetTypeInfo().GetMethod(this.method.MethodName);
+=======
+		public void MethodInvokation(MethodInfo mi, object instance) { 
+>>>>>>> method-information
 			try
 			{
 				ParameterInfo[] info = mi.GetParameters();
@@ -150,6 +220,24 @@ namespace cs_vault_bridge_console
 			Console.WriteLine(ex.ToString(), "Error");
 			return;
 		}
+		}
+		public void Login(out Connection connection) {
+			VDF.Vault.Results.LogInResult loginResults = VDF.Vault.Library.ConnectionManager.LogIn(
+						"192.168.10.250", "DTcenter", "DTcenter", "1234"
+						//"192.168.10.250", "DTcenter", "joowon.suh@woosungautocon.com", "R-6qEbT#*nrJLZp"
+						, VDF.Vault.Currency.Connections.AuthenticationFlags.Standard, null
+						);
+			if (!loginResults.Success)
+			{
+				foreach (var key in loginResults.ErrorMessages.Keys)
+				{
+					Console.WriteLine(loginResults.ErrorMessages[key]);
+				}
+			}
+			connection = loginResults.Connection;
+		}
+		public void Logout(Connection connection) {
+			VDF.Vault.Library.ConnectionManager.LogOut(connection);
 		}
 	}
 }

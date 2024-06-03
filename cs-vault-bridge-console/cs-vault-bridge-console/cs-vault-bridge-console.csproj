@@ -88,6 +88,7 @@
     <Compile Include="Command\Method.cs" />
     <Compile Include="Command\Parameter.cs" />
     <Compile Include="Command\Parser.cs" />
+    <Compile Include="Util\CsMethodInfo.cs" />
     <Compile Include="Util\ItemTree.cs" />
     <Compile Include="Service\BaseService.cs" />
     <Compile Include="Service\FolderService.cs" />
