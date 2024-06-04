@@ -28,52 +28,59 @@ namespace cs_vault_bridge_console
 		private string endPoint;
 		private object instance;
 		private VDF.Vault.Currency.Connections.Connection connection;
+		private MethodService m_methodService;
 
-		public Parser() { }
-		public Parser(string[] args) 
-		{ 
-			if (args != null){
-				if (args.Length < 2){
+		public Parser(string[] args)
+		{
+			if (args != null)
+			{
+				if (args.Length < 2)
+				{
 					entity = new Target(args[0]);
 				}
-				else {
+				else
+				{
 					entity = new Target(args[0]);
 					method = new Method(args[1]);
 					host = args[2];
 					endPoint = args[3];
 					parameter = new Parameter(args.Skip(4).ToArray());
-
+					this.m_methodService = new MethodService(host, endPoint);
 				}
 			}
-			else { 
+			else
+			{
 				//TODO : Throw exception for null case.
 			}
 		}
-		public void Execute() {
-			if (entity.Name == "folder") {
+		public void Execute()
+		{
+			if (entity.Name == "folder")
+			{
 				instance = new cs_vault_bridge_console.Service.FolderService("192.168.10.250", "DTcenter", "DTcenter", "1234");
-				MethodInvokation(instance);
+				this.m_methodService.MethodInvokation(instance, method.MethodName, parameter.ParameterObject);
 			}
-			if (entity.Name == "item") {
+			if (entity.Name == "item")
+			{
 				instance = new cs_vault_bridge_console.Service.ItemService("192.168.10.250", "DTcenter", "DTcenter", "1234");
-				MethodInvokation(instance);
+				this.m_methodService.MethodInvokation(instance, method.MethodName, parameter.ParameterObject);
 			}
-			if(entity.Name == "property"){
+			if (entity.Name == "property")
+			{
 				instance = new cs_vault_bridge_console.Service.PropertyService("192.168.10.250", "DTcenter", "DTcenter", "1234");
-				MethodInvokation(instance);
+				this.m_methodService.MethodInvokation(instance, method.MethodName, parameter.ParameterObject);
 			}
-			if (entity.Name == "test") { 
+			if (entity.Name == "test")
+			{
 				instance = new cs_vault_bridge_console.Service.TestService("192.168.10.250", "DTcenter", "DTcenter", "1234");
-				MethodInvokation(instance);
+				this.m_methodService.MethodInvokation(instance, method.MethodName, parameter.ParameterObject);
 			}
-			if (entity.Name == "test") { 
-				instance = new TestService("192.168.10.250", "DTcenter", "DTcenter", "1234");
-				MethodInvokation(instance);
-			}
-			if (entity.Name.StartsWith("Vault")){
+			if (entity.Name.StartsWith("Vault"))
+			{
 				// Without out keyword compiler will say "use of uninitialized variable warning"
 				Login(out connection);
-				switch (entity.Name) {
+				switch (entity.Name)
+				{
 					case "VaultItemService":
 						instance = connection.WebServiceManager.ItemService;
 						break;
@@ -83,7 +90,7 @@ namespace cs_vault_bridge_console
 					case "VaultCategoryService":
 						instance = connection.WebServiceManager.CategoryService;
 						break;
-					case "VaultChangeOrder":		
+					case "VaultChangeOrder":
 						instance = connection.WebServiceManager.ChangeOrderService;
 						break;
 					case "VaultDocumentService":
@@ -99,56 +106,51 @@ namespace cs_vault_bridge_console
 						instance = connection.WebServiceManager.NumberingService;
 						break;
 				}
-				MethodInvokation(instance);
+				if (m_methodService != null && instance != null && method != null && parameter != null)
+				{
+					m_methodService.MethodInvokation(instance, method.MethodName, parameter.ParameterObject);
+				}
+				else
+				{
+					// Handle the error
+					Console.WriteLine("Error");
+				}
 				Logout(connection);
 			}
-			if (entity.Name == "method") {
+			if (entity.Name == "method")
+			{
 				VDF.Vault.Currency.Connections.Connection connection;
 				Login(out connection);
-				List<CsMethodInfo> csMethodInfos = new List<CsMethodInfo>();
-				MethodInfo[] mis = null; 
-				switch (method.MethodName) {
+				switch (method.MethodName)
+				{
 					case "ItemService":
-						mis = connection.WebServiceManager.ItemService.GetType().GetTypeInfo().GetMethods();
+						instance = connection.WebServiceManager.ItemService;
 						break;
 					case "PropertyService":
-						mis = connection.WebServiceManager.PropertyService.GetType().GetTypeInfo().GetMethods();
+						instance = connection.WebServiceManager.PropertyService;
 						break;
 					case "CategoryService":
-						mis = connection.WebServiceManager.CategoryService.GetType().GetTypeInfo().GetMethods();
+						instance = connection.WebServiceManager.CategoryService;
 						break;
-					case "FileStore":  
-						mis = connection.WebServiceManager.FilestoreService.GetType().GetTypeInfo().GetMethods();
+					case "FileStore":
+						instance = connection.WebServiceManager.FilestoreService;
 						break;
 					case "DocumentService":
-						mis = connection.WebServiceManager.DocumentService.GetType().GetTypeInfo().GetMethods();
+						instance = connection.WebServiceManager.DocumentService;
 						break;
 					case "LifeCycleService":
-						mis = connection.WebServiceManager.LifeCycleService.GetType().GetTypeInfo().GetMethods();
+						instance = connection.WebServiceManager.LifeCycleService;
 						break;
 					case "NumberingService":
-						mis = connection.WebServiceManager.NumberingService.GetType().GetTypeInfo().GetMethods();
+						instance = connection.WebServiceManager.NumberingService;
 						break;
 				}
-				foreach ( var mi in mis ) {
-					CsMethodInfo temp = new CsMethodInfo();
-					temp.methodName = mi.Name;
-					temp.returnType = mi.ReturnType.Name;
-					temp.parameterTypes = new string[mi.GetParameters().Length];
-					int index = 0;
-					foreach (var pi in mi.GetParameters()) {
-						temp.parameterTypes[index++] = pi.ParameterType.Name;
-					}
-					csMethodInfos.Add(temp);
-					Console.WriteLine($"{temp.returnType} {temp.methodName}");
-				}
-
-				Updater<CsMethodInfo[]> updater = new Updater<CsMethodInfo[]>(host);
-				updater.GenericPost(endPoint, csMethodInfos.ToArray());
+				m_methodService.GetMethodInfos(instance, method.MethodName, parameter.ParameterObject);
 				Logout(connection);
 			}
 		}
-		public void Login(out Connection connection) {
+		public void Login(out Connection connection)
+		{
 			VDF.Vault.Results.LogInResult results = VDF.Vault.Library.ConnectionManager.LogIn("192.168.10.250", "DTcenter", "DTcenter", "1234"
 						//"192.168.10.250", "DTcenter", "joowon.suh@woosungautocon.com", "R-6qEbT#*nrJLZp"
 						, VDF.Vault.Currency.Connections.AuthenticationFlags.Standard, null
@@ -165,49 +167,6 @@ namespace cs_vault_bridge_console
 		public void Logout(Connection connection)
 		{
 			VDF.Vault.Library.ConnectionManager.LogOut(connection);
-		}
-		public void MethodInvokation( object instance )  { 
-			var mi = instance.GetType().GetTypeInfo().GetMethod(this.method.MethodName);
-			try
-			{
-				ParameterInfo[] info = mi.GetParameters();
-				Object[] parameters = new Object[info.Length];
-				int parametersIndex = 0;
-				foreach (ParameterInfo parameterInfo in mi.GetParameters()) {
-				if (parameterInfo.ParameterType.GetTypeInfo().IsArray)
-				{
-					IList<JToken> jsonResults = parameter.ParameterObject[parameterInfo.Name].ToList();
-					Array array = Array.CreateInstance( parameterInfo.ParameterType.GetElementType(), mi.GetParameters().Length );
-					int listIndex  = 0;
-					parameters[parametersIndex] = array;
-					foreach (var value in jsonResults.Values())
-					{
-						parameters[parametersIndex].GetType().InvokeMember("SetValue", System.Reflection.BindingFlags.InvokeMethod, null, parameters[parametersIndex], new object[] { Convert.ChangeType(value, parameterInfo.ParameterType.GetElementType()), listIndex++ });
-					}
-					parametersIndex++;
-				}
-				else
-				{
-					var jsonResult = parameter.ParameterObject[parameterInfo.Name];
-					parameters[parametersIndex] = Activator.CreateInstance(parameterInfo.ParameterType);
-					foreach (var value in jsonResult.Values()) { 
-						parameters[parametersIndex++] = value;
-					}
-				}
-			}
-			Object returnObject = mi.Invoke(instance, parameters);
-			if (returnObject == null) {
-				throw new Exception("Item cannot be found");
-			}
-			Console.WriteLine(mi.ReturnType);
-			var updateObject = Activator.CreateInstance(typeof(Updater<>).MakeGenericType(mi.ReturnType), host );
-			updateObject.GetType().InvokeMember("GenericPost", System.Reflection.BindingFlags.InvokeMethod, null, updateObject, new object[] { endPoint, returnObject });
-		}
-		catch (Exception ex)
-		{
-			Console.WriteLine(ex.ToString(), "Error");
-			return;
-		}
 		}
 	}
 }
