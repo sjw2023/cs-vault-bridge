@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\service\\methodservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\service\\methodservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\service\\itemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\service\\itemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\service\\baseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\service\\baseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|cs-vault-bridge-console||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
@@ -12,10 +16,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\command\\parser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\command\\parser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|solutionrelative:cs-vault-bridge-console\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6F76C9C4-9197-4BC7-B08F-E22908A07B98}|cs-vault-bridge-console\\cs-vault-bridge-console.csproj|c:\\users\\231223\\documents\\github\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|6185191f-1008-4fb2-a715-3a4e4f27e610"
@@ -27,33 +27,25 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "DockedWidth": 199,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MethodService.cs",
-              "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\MethodService.cs",
-              "RelativeDocumentMoniker": "cs-vault-bridge-console\\Service\\MethodService.cs",
-              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\MethodService.cs*",
-              "RelativeToolTip": "cs-vault-bridge-console\\Service\\MethodService.cs*",
-              "ViewState": "AQIAACoAAAAAAAAAAAAQwD4AAACNAAAA",
+              "Title": "ItemService.cs",
+              "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\ItemService.cs",
+              "RelativeDocumentMoniker": "cs-vault-bridge-console\\Service\\ItemService.cs",
+              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\ItemService.cs",
+              "RelativeToolTip": "cs-vault-bridge-console\\Service\\ItemService.cs",
+              "ViewState": "AQIAAJgBAAAAAAAAAIAwwKEBAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-04T00:53:30.512Z",
+              "WhenOpened": "2024-06-04T08:06:03.935Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "cs-vault-bridge-console",
               "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\cs-vault-bridge-console.csproj",
               "RelativeDocumentMoniker": "cs-vault-bridge-console\\cs-vault-bridge-console.csproj",
@@ -62,47 +54,47 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2024-06-04T00:51:04.269Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Program.cs",
-              "RelativeDocumentMoniker": "cs-vault-bridge-console\\Program.cs",
-              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Program.cs",
-              "RelativeToolTip": "cs-vault-bridge-console\\Program.cs",
-              "ViewState": "AQIAABQAAAAAAAAAAAAvwB4AAAADAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-04T00:47:57.349Z",
-              "EditorCaption": ""
             }
           ]
         },
         {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "DockedWidth": 201,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Parser.cs",
               "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Command\\Parser.cs",
               "RelativeDocumentMoniker": "cs-vault-bridge-console\\Command\\Parser.cs",
               "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Command\\Parser.cs",
               "RelativeToolTip": "cs-vault-bridge-console\\Command\\Parser.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAvwK8AAAABAAAA",
+              "ViewState": "AQIAACkAAAAAAAAAAAAkwEIAAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-04T00:37:12.824Z",
+              "WhenOpened": "2024-06-05T07:35:44.539Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BaseService.cs",
+              "DocumentMoniker": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\BaseService.cs",
+              "RelativeDocumentMoniker": "cs-vault-bridge-console\\Service\\BaseService.cs",
+              "ToolTip": "C:\\Users\\231223\\Documents\\GitHub\\cs-vault-bridge\\cs-vault-bridge-console\\cs-vault-bridge-console\\Service\\BaseService.cs",
+              "RelativeToolTip": "cs-vault-bridge-console\\Service\\BaseService.cs",
+              "ViewState": "AQIAACQAAAAAAAAAAAAwwDEAAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-05T07:39:47.325Z",
               "EditorCaption": ""
             }
           ]
         },
         {
-          "DockedWidth": 1908,
+          "DockedWidth": 840,
           "SelectedChildIndex": -1,
           "Children": [
             {

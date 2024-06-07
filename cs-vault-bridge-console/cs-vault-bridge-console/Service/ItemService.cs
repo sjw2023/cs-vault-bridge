@@ -25,6 +25,9 @@ namespace cs_vault_bridge_console.Service
 		public ItemService(string serverName, string vaultName, string userName, string password) : base(
 				userName, password, serverName, vaultName)
 		{ }
+		public ItemService(string serverName, string vaultName, string userName, string password, string host, string endpoint) : base(
+				userName, password, serverName, vaultName, host, endpoint)
+		{ }
 		private void FindItemById(long id)
 		{
 			//login
@@ -364,7 +367,8 @@ namespace cs_vault_bridge_console.Service
 			return items;
 		}
 		// TODO : have this method to return result as File id
-		public ItemFileAssoc[] GetFileAssociationsByMasterItemNum( Parameter parameter ) {
+		public ItemFileAssoc[] GetFileAssociationsByMasterItemNum(Parameter parameter)
+		{
 			Item item = this.FindItemByName(parameter);
 
 			VDF.Vault.Currency.Connections.Connection connection;
@@ -372,7 +376,8 @@ namespace cs_vault_bridge_console.Service
 
 			//	Get File associations with ids
 			ItemFileAssoc[] assocs = connection.WebServiceManager.ItemService.GetItemFileAssociationsByItemIds(new long[] { item.Id }, ItemFileLnkTypOpt.Primary);
-			foreach (ItemFileAssoc assoc in assocs) {
+			foreach (ItemFileAssoc assoc in assocs)
+			{
 				Console.WriteLine($"{item.ItemNum} has {assoc.FileName} and its id is {assoc.CldFileId}");
 
 				// check if result above is corret, this is unnecessary cod3
@@ -383,7 +388,8 @@ namespace cs_vault_bridge_console.Service
 			base.Logout(connection);
 			return assocs;
 		}
-		public void PrintBomOfItem(Item item) {
+		public void PrintBomOfItem(Item item)
+		{
 			VDF.Vault.Currency.Connections.Connection connection;
 			base.LogIn(out connection);
 			//Read all BOMs of each items
@@ -394,6 +400,22 @@ namespace cs_vault_bridge_console.Service
 				Item[] child = connection.WebServiceManager.ItemService.GetItemsByIds(new long[] { itemAssoc.CldItemID });
 				Console.WriteLine($"Parent : {itemAssoc.ParItemMasterID} id : {itemAssoc.Id} | Parent Item name : {temp[0].ItemNum} | {itemAssoc.CldItemID} | {child[0].ItemNum}");
 			}
+			base.Logout(connection);
+		}
+		public void GetModifiedMasterItems(DateTime lastUpdateTime)
+		{
+			VDF.Vault.Currency.Connections.Connection connection;
+			base.LogIn(out connection);
+			string bookmark = null;
+			SrchStatus status = null;
+			Item[] items = connection.WebServiceManager.ItemService.FindItemRevisionsBySearchConditions(null, null, true, ref bookmark, out status);
+			Item[] modifiedItems = items.Where(item => item.LastModDate > lastUpdateTime).ToArray();
+			foreach (Item item in modifiedItems)
+			{
+				Console.WriteLine($"Item ID : {item.Id} | Item Number : {item.ItemNum} | Revision Number : {item.RevNum} | Title : {item.Title} | Last Modified Date : {item.LastModDate}");
+			}
+			Updater<Item[]> updater = new Updater<Item[]>(this.host);
+			updater.GenericPost( this.endpoint, modifiedItems);
 			base.Logout(connection);
 		}
 	}

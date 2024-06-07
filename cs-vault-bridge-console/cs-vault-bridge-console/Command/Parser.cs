@@ -29,6 +29,7 @@ namespace cs_vault_bridge_console
 		private object instance;
 		private VDF.Vault.Currency.Connections.Connection connection;
 		private MethodService m_methodService;
+		private ItemService m_itemService;
 
 		public Parser(string[] args)
 		{
@@ -46,6 +47,7 @@ namespace cs_vault_bridge_console
 					endPoint = args[3];
 					parameter = new Parameter(args.Skip(4).ToArray());
 					this.m_methodService = new MethodService(host, endPoint);
+					this.m_itemService = new ItemService("192.168.10.250", "DTcenter", "DTcenter", "1234", host, endPoint);
 				}
 			}
 			else
@@ -62,7 +64,7 @@ namespace cs_vault_bridge_console
 			}
 			if (entity.Name == "item")
 			{
-				instance = new cs_vault_bridge_console.Service.ItemService("192.168.10.250", "DTcenter", "DTcenter", "1234");
+				instance = this.m_itemService; 
 				this.m_methodService.MethodInvokation(instance, method.MethodName, parameter.ParameterObject);
 			}
 			if (entity.Name == "property")

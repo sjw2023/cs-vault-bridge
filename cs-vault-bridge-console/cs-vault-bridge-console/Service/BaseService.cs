@@ -15,6 +15,8 @@ namespace cs_vault_bridge_console.Service
 		protected string password;
 		protected string serverName;
 		protected string vaultName;
+		protected string host;
+		protected string endpoint;
 
 		public void LogIn(out Connection connection)
 		{
@@ -35,7 +37,6 @@ namespace cs_vault_bridge_console.Service
 		public void Logout(Connection connection) {
 			VDF.Vault.Library.ConnectionManager.LogOut(connection);
 		}
-
 		public BaseService() { }
 		public BaseService(string userName, string password, string serverName, string vaultName)
 		{
@@ -43,6 +44,11 @@ namespace cs_vault_bridge_console.Service
 			this.password = password;
 			this.serverName = serverName;
 			this.vaultName = vaultName;
+		}
+		public BaseService(string userName, string password, string serverName, string vaultName, string host, string endpoint) : this(userName, password, serverName, vaultName)
+		{
+			this.host = host;
+			this.endpoint = endpoint;
 		}
 	}
 }
