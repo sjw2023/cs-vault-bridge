@@ -4,3 +4,10 @@
 
 /.vs/cs-vault-bridge/FileContentIndex
 /cs-vault-bridge-console/.vs/cs-vault-bridge-console/FileContentIndex
+.vscode/settings.json
+cs-vault-bridge/WindowsFormsApp1/obj/Debug/.NETFramework,Version=v4.8.AssemblyAttributes.cs
+cs-vault-bridge/WindowsFormsApp1/obj/Debug/WindowsFormsApp1.csproj.AssemblyReference.cache
+cs-vault-bridge-console/.vs/cs-vault-bridge-console/v17/.suo
+cs-vault-bridge-console/.vs/cs-vault-bridge-console/v17/DocumentLayout.json
+cs-vault-bridge-web/.vs/cs-vault-bridge-web/v17/.suo
+cs-vault-bridge-web/.vs/cs-vault-bridge-web/v17/DocumentLayout.json
